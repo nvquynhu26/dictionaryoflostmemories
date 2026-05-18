@@ -2,14 +2,16 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>추억의 사전</title>
     <style>
+        /* --- RESET & VARIABLES --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             transition: background-color 0.3s ease, color 0.3s ease;
+            -webkit-tap-highlight-color: transparent; /* Xóa viền xanh khi chạm trên điện thoại */
         }
         :root {
             --bg-color: #ffffff;
@@ -26,36 +28,44 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 30px 16px; /* Thu nhỏ padding trên mobile */
             min-height: 100vh;
+            overflow-x: hidden; /* Ngăn tình trạng cuộn ngang ngoài ý muốn */
         }
+
+        /* --- HEADER --- */
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            width: 100%;
         }
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem; /* Thu nhỏ một chút cho vừa màn hình dọc */
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         header p {
-            font-size: 1rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             opacity: 0.8;
+            padding: 0 10px;
+            line-height: 1.3;
         }
+
+        /* --- TOGGLE SWITCH --- */
         .toggle-container {
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
         .switch {
             position: relative;
             display: inline-block;
             width: 220px;
-            height: 40px;
+            height: 42px;
         }
         .switch input {
             opacity: 0;
@@ -68,7 +78,7 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: var(--toggle-bg);
             border: 2px solid var(--toggle-border);
-            border-radius: 20px;
+            border-radius: 21px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -79,94 +89,114 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 32px;
-            width: 100px;
+            height: 34px;
+            width: 102px;
             left: 3px;
             bottom: 2px;
             background-color: #000000;
-            border-radius: 16px;
-            transition: 0.3s;
+            border-radius: 17px;
+            transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 1;
         }
         [data-theme="dark"] .slider:before {
             background-color: #ffffff;
         }
-        .slider .label-left {
-            color: #ffffff;
+        .slider .label-left, .slider .label-right {
             z-index: 2;
+            width: 102px;
+            text-align: center;
         }
-        .slider .label-right {
-            color: #000000;
-            z-index: 2;
-        }
+        .slider .label-left { color: #ffffff; }
+        .slider .label-right { color: #000000; }
+
         input:checked + .slider:before {
-            transform: translateX(110px);
+            transform: translateX(108px);
         }
         body:not([data-theme="dark"]) input:not(:checked) + .slider .label-right { color: #000000; }
         body:not([data-theme="dark"]) input:checked + .slider .label-left { color: #000000; }
+
+        /* --- CONTENT SECTIONS --- */
         .content-section {
             width: 100%;
-            max-width: 800px;
+            max-width: 600px;
             display: none;
         }
         .content-section.active {
             display: block;
         }
         #introduction {
-            line-height: 1.6;
+            line-height: 1.7;
             text-align: justify;
+            font-size: 0.95rem;
+            word-break: keep-all; /* Giúp tiếng Hàn ngắt dòng đẹp hơn */
         }
+
+        /* --- DICTIONARY TAB (MOBILE OPTIMIZED) --- */
         .alphabet-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* Chia đều 6 cột trên mobile */
             gap: 8px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        @media (max-width: 380px) {
+            .alphabet-container {
+                grid-template-columns: repeat(5, 1fr); /* Màn hình quá nhỏ thì chia 5 cột */
+            }
         }
         .letter-btn {
             background: none;
             border: 1px solid #ffffff;
             color: #ffffff;
-            padding: 8px 14px;
-            font-size: 1rem;
+            padding: 10px 0; /* Tăng khoảng trống để dễ bấm bằng ngón tay */
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
+            text-align: center;
+            -webkit-appearance: none; /* Xóa định dạng nút mặc định của iOS */
         }
         .letter-btn:hover, .letter-btn.active {
             background-color: #ffffff;
             color: #000000;
         }
+
+        /* Detail Display Area */
         .word-detail {
             display: none;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
+            width: 100%;
         }
         .big-letter {
-            font-size: 6rem;
+            font-size: 4.5rem; /* Thu nhỏ cỡ chữ cái trên điện thoại */
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .meaning-ko {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            font-weight: 500;
+            word-break: keep-all;
         }
         .meaning-en {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.8;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .artwork-box {
             width: 100%;
-            max-width: 500px;
+            max-width: 100%; /* Đảm bảo không bị tràn màn hình mobile */
             margin: 0 auto;
-            padding: 20px;
+            padding: 12px;
             background: linear-gradient(45deg, #ff0055, #ff5500, #ffcc00, #00ccff); 
-            border-radius: 8px;
+            border-radius: 12px;
         }
         .artwork-box img {
             width: 100%;
             height: auto;
             display: block;
+            border-radius: 6px;
         }
     </style>
 </head>
