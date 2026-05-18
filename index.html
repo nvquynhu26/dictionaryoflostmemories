@@ -1,393 +1,283 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>추억의 사전</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --toggle-bg: #ffffff;
+            --toggle-border: #000000;
+        }
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --toggle-bg: #000000;
+            --toggle-border: #ffffff;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        header p {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        .toggle-container {
+            margin-bottom: 40px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 220px;
+            height: 40px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--toggle-bg);
+            border: 2px solid var(--toggle-border);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 32px;
+            width: 100px;
+            left: 3px;
+            bottom: 2px;
+            background-color: #000000;
+            border-radius: 16px;
+            transition: 0.3s;
+            z-index: 1;
+        }
+        [data-theme="dark"] .slider:before {
+            background-color: #ffffff;
+        }
+        .slider .label-left {
+            color: #ffffff;
+            z-index: 2;
+        }
+        .slider .label-right {
+            color: #000000;
+            z-index: 2;
+        }
+        input:checked + .slider:before {
+            transform: translateX(110px);
+        }
+        body:not([data-theme="dark"]) input:not(:checked) + .slider .label-right { color: #000000; }
+        body:not([data-theme="dark"]) input:checked + .slider .label-left { color: #000000; }
+        .content-section {
+            width: 100%;
+            max-width: 800px;
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        #introduction {
+            line-height: 1.6;
+            text-align: justify;
+        }
+        .alphabet-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+        .letter-btn {
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 8px 14px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .letter-btn:hover, .letter-btn.active {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .word-detail {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .big-letter {
+            font-size: 6rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .meaning-ko {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .meaning-en {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        .artwork-box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(45deg, #ff0055, #ff5500, #ffcc00, #00ccff); 
+            border-radius: 8px;
+        }
+        .artwork-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="ko"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;추억의 사전&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- RESET &amp; VARIABLES --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>* {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.4s ease, color 0.4s ease;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--bg-color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--text-color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--toggle-bg: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--toggle-border: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>[data-theme="dark"] {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--bg-color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--text-color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--toggle-bg: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--toggle-border: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg-color);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Helvetica Neue', Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 40px 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- HEADER --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>header {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>header h1 {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: -0.5px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>header p {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 1px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.8;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- TOGGLE SWITCH --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.toggle-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.switch {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 220px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.switch input {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.slider {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>top: 0; left: 0; right: 0; bottom: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--toggle-bg);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 2px solid var(--toggle-border);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 0 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.85rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.slider:before {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>content: "";</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>left: 3px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>bottom: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: .3s;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>[data-theme="dark"] .slider:before {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.slider .label-left {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>z-index: 2;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.slider .label-right {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>z-index: 2;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: color 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Khi gạt sang phải (Dictionary) */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>input:checked + .slider:before {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(110px);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>input:checked + .slider .label-left {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>[data-theme="dark"] input:checked + .slider .label-left {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>input:checked + .slider .label-right {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>[data-theme="dark"] input:checked + .slider .label-right {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Hiệu chỉnh màu chữ text theo theme để luôn nổi bật trên cục switch */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body:not([data-theme="dark"]) input:not(:checked) + .slider .label-right { color: #000000; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body:not([data-theme="dark"]) input:checked + .slider .label-left { color: #000000; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- CONTENT SECTIONS --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.content-section {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 800px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.content-section.active {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Introduction Slide */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>#introduction {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: slideIn 0.5s ease out;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.6;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: justify;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>@keyframes slideIn {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>from { transform: translateY(20px); opacity: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>to { transform: translateY(0); opacity: 1; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- DICTIONARY TAB --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Alphabet Grid (Tây Ban Nha bao gồm cả Ñ) */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.alphabet-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.letter-btn {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: none;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px 14px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.2s;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.letter-btn:hover, .letter-btn.active {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #000000;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Detail Display Area */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.word-detail {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.4s ease;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.big-letter {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 6rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.meaning-ko {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.3rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.meaning-en {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.8;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Artwork Container */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.artwork-box {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 500px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>/* Nền màu Latinh rực rỡ */</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(45deg, #ff0055, #ff5500, #ffcc00, #00ccff);<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 30px rgba(255,255,255,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.artwork-box img {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: auto;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>object-fit: contain;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- HEADER --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;header&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;추억의 사전&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Dictionary of the Lost Memories&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- TOGGLE SWITCH --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="toggle-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label class="switch"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="checkbox" id="modeToggle"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="slider"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="label-left"&gt;Introduction&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="label-right"&gt;Dictionary&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- SECTION 1: INTRODUCTION --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="introduction" class="content-section active"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Dán nội dung giới thiệu dự án của bạn vào đây --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Đây là nơi bạn dán nội dung giới thiệu dự án dạng trượt. Đoạn văn bản này sẽ hiển thị ở chế độ mặc định với phông nền trắng và chữ màu đen tối giản.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- SECTION 2: DICTIONARY --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="dictionary" class="content-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Bảng chữ cái Tây Ban Nha (A-Z bao gồm cả Ñ) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="alphabet-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('A')"&gt;A&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('B')"&gt;B&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('C')"&gt;C&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('D')"&gt;D&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('E')"&gt;E&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('F')"&gt;F&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('G')"&gt;G&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('H')"&gt;H&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('I')"&gt;I&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('J')"&gt;J&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('K')"&gt;K&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('L')"&gt;L&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('M')"&gt;M&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('N')"&gt;N&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('Ñ')"&gt;Ñ&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('O')"&gt;O&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('P')"&gt;P&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('Q')"&gt;Q&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('R')"&gt;R&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('S')"&gt;S&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('T')"&gt;T&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('U')"&gt;U&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('V')"&gt;V&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('W')"&gt;W&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('X')"&gt;X&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('Y')"&gt;Y&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button class="letter-btn" onclick="showWord('Z')"&gt;Z&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Vùng hiển thị chi tiết từ khi click --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="wordDetail" class="word-detail"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="big-letter" id="displayLetter"&gt;A&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="meaning-ko" id="displayKo"&gt;한국어 설명이 여기에 들어갑니다.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="meaning-en" id="displayEn"&gt;English explanation goes here.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="artwork-box"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Đường dẫn ảnh png sẽ được thay đổi tự động bằng JS --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;img id="displayImg" src="" alt="Artwork"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- JAVASCRIPT CONTROL --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const modeToggle = document.getElementById('modeToggle');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const introSection = document.getElementById('introduction');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const dictSection = document.getElementById('dictionary');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const wordDetail = document.getElementById('wordDetail');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Dữ liệu mẫu cho Từ điển (Bạn có thể sửa nội dung và tên file ảnh tại đây)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const dictionaryData = {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'A': { ko: '추억 / 기억', en: 'Memory / Remembrance', img: 'images/a-art.png' },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'B': { ko: '상자', en: 'Box', img: 'images/b-art.png' },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>'C': { ko: '노래', en: 'Song', img: 'images/c-art.png' },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Thêm các ký tự khác tương tự vào đây...</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Xử lý sự kiện Gạt nút (Chuyển Tab &amp; Đổi màu nền)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>modeToggle.addEventListener('change', function() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (this.checked) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Sang phải: Dictionary (Nền đen chữ trắng)</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.documentElement.setAttribute('data-theme', 'dark');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>introSection.classList.remove('active');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>dictSection.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Sang trái: Introduction (Nền trắng chữ đen)</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.documentElement.removeAttribute('data-theme');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>dictSection.classList.remove('active');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>introSection.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Xử lý sự kiện click vào từng ký tự chữ cái</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function showWord(letter) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Active hiệu ứng nút được chọn</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const buttons = document.querySelectorAll('.letter-btn');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>buttons.forEach(btn =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if(btn.textContent === letter) btn.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>else btn.classList.remove('active');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Lấy dữ liệu chữ cái tương ứng</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const data = dictionaryData[letter];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (data) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayLetter').textContent = letter;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayKo').textContent = data.ko;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayEn').textContent = data.en;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayImg').src = data.img;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayImg').alt = `Artwork for ${letter}`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>wordDetail.style.display = 'block';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Trường hợp ký tự chưa được nhập dữ liệu cụ thể</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayLetter').textContent = letter;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayKo').textContent = '준비 중인 단어입니다.';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayEn').textContent = 'Content is coming soon.';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayImg').src = '';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('displayImg').alt = 'No image available';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>wordDetail.style.display = 'block';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+    <header>
+        <h1>추억의 사전</h1>
+        <p>Dictionary of the Lost Memories</p>
+    </header>
+
+    <div class="toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="modeToggle">
+            <span class="slider">
+                <span class="label-left">Introduction</span>
+                <span class="label-right">Dictionary</span>
+            </span>
+        </label>
+    </div>
+
+    <section id="introduction" class="content-section active">
+        <p>프로젝트 소개 내용을 여기에 입력하세요. (Introduction content goes here)</p>
+    </section>
+
+    <section id="dictionary" class="content-section">
+        <div class="alphabet-container">
+            <button class="letter-btn" onclick="showWord('A')">A</button>
+            <button class="letter-btn" onclick="showWord('B')">B</button>
+            <button class="letter-btn" onclick="showWord('C')">C</button>
+            <button class="letter-btn" onclick="showWord('D')">D</button>
+            <button class="letter-btn" onclick="showWord('E')">E</button>
+            <button class="letter-btn" onclick="showWord('F')">F</button>
+            <button class="letter-btn" onclick="showWord('G')">G</button>
+            <button class="letter-btn" onclick="showWord('H')">H</button>
+            <button class="letter-btn" onclick="showWord('I')">I</button>
+            <button class="letter-btn" onclick="showWord('J')">J</button>
+            <button class="letter-btn" onclick="showWord('K')">K</button>
+            <button class="letter-btn" onclick="showWord('L')">L</button>
+            <button class="letter-btn" onclick="showWord('M')">M</button>
+            <button class="letter-btn" onclick="showWord('N')">N</button>
+            <button class="letter-btn" onclick="showWord('Ñ')">Ñ</button>
+            <button class="letter-btn" onclick="showWord('O')">O</button>
+            <button class="letter-btn" onclick="showWord('P')">P</button>
+            <button class="letter-btn" onclick="showWord('Q')">Q</button>
+            <button class="letter-btn" onclick="showWord('R')">R</button>
+            <button class="letter-btn" onclick="showWord('S')">S</button>
+            <button class="letter-btn" onclick="showWord('T')">T</button>
+            <button class="letter-btn" onclick="showWord('U')">U</button>
+            <button class="letter-btn" onclick="showWord('V')">V</button>
+            <button class="letter-btn" onclick="showWord('W')">W</button>
+            <button class="letter-btn" onclick="showWord('X')">X</button>
+            <button class="letter-btn" onclick="showWord('Y')">Y</button>
+            <button class="letter-btn" onclick="showWord('Z')">Z</button>
+        </div>
+
+        <div id="wordDetail" class="word-detail">
+            <div class="big-letter" id="displayLetter">A</div>
+            <div class="meaning-ko" id="displayKo">한국어 설명</div>
+            <div class="meaning-en" id="displayEn">English explanation</div>
+            <div class="artwork-box">
+                <img id="displayImg" src="" alt="Artwork">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const modeToggle = document.getElementById('modeToggle');
+        const introSection = document.getElementById('introduction');
+        const dictSection = document.getElementById('dictionary');
+        const wordDetail = document.getElementById('wordDetail');
+
+        const dictionaryData = {
+            'A': { ko: '추억 / 기억', en: 'Memory / Remembrance', img: 'images/a-art.png' },
+            'B': { ko: '상자', en: 'Box', img: 'images/b-art.png' },
+            'C': { ko: '노래', en: 'Song', img: 'images/c-art.png' }
+        };
+
+        modeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                introSection.classList.remove('active');
+                dictSection.classList.add('active');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                dictSection.classList.remove('active');
+                introSection.classList.add('active');
+            }
+        });
+
+        function showWord(letter) {
+            const buttons = document.querySelectorAll('.letter-btn');
+            buttons.forEach(btn => {
+                if(btn.textContent === letter) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            const data = dictionaryData[letter];
+            if (data) {
+                document.getElementById('displayLetter').textContent = letter;
+                document.getElementById('displayKo').textContent = data.ko;
+                document.getElementById('displayEn').textContent = data.en;
+                document.getElementById('displayImg').src = data.img;
+                wordDetail.style.display = 'block';
+            } else {
+                document.getElementById('displayLetter').textContent = letter;
+                document.getElementById('displayKo').textContent = '준비 중인 단어입니다.';
+                document.getElementById('displayEn').textContent = 'Coming soon.';
+                document.getElementById('displayImg').src = '';
+                wordDetail.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
