@@ -1,323 +1,289 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>추억의 사전</title>
-    <style>
-        /* --- RESET & VARIABLES --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --toggle-bg: #ffffff;
-            --toggle-border: #000000;
-        }
-        [data-theme="dark"] {
-            --bg-color: #000000;
-            --text-color: #ffffff;
-            --toggle-bg: #000000;
-            --toggle-border: #ffffff;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 16px;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+import json
 
-        /* --- HEADER --- */
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-        header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        header p {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.8;
-            padding: 0 10px;
-            line-height: 1.3;
-        }
+# Load raw interview records
+with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/itv_raw.json", "r", encoding="utf-8") as f:
+    itv_data = json.load(f)
 
-        /* --- TOGGLE SWITCH (FIXED FOR IPHONE) --- */
-        .toggle-container {
-            margin-bottom: 35px;
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 230px; /* Tăng nhẹ độ rộng để chữ không bị khít */
-            height: 44px; /* Tăng chiều cao để dễ chạm */
-        }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--toggle-bg);
-            border: 2px solid var(--toggle-border);
-            border-radius: 22px;
-            display: flex;
-            padding: 0; /* Bỏ padding cũ */
-            font-size: 0.85rem;
-            font-weight: 600;
-            overflow: hidden;
-        }
-        /* Cục trượt đen/trắng */
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 36px;
-            width: 110px;
-            left: 2px;
-            bottom: 2px;
-            background-color: #000000;
-            border-radius: 18px;
-            transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 1;
-        }
-        [data-theme="dark"] .slider:before {
-            background-color: #ffffff;
-        }
-
-        /* Căn chỉnh chữ chính xác cho iPhone */
-        .slider .label-left, .slider .label-right {
-            position: relative;
-            z-index: 2;
-            width: 50%;
-            text-align: center;
-            line-height: 40px; /* Bằng chiều cao lòng trong của khung (44px - 4px border) */
-            height: 100%;
-            display: block;
-            white-space: nowrap;
-        }
-
-        .slider .label-left { color: #ffffff; }
-        .slider .label-right { color: #000000; }
-
-        input:checked + .slider:before {
-            transform: translateX(112px); /* Đẩy cục trượt sang phải */
-        }
-        
-        /* Hiệu ứng đổi màu chữ khi gạt nút */
-        body:not([data-theme="dark"]) input:checked + .slider .label-left { color: #000000; }
-        body:not([data-theme="dark"]) input:checked + .slider .label-right { color: #ffffff; }
-        [data-theme="dark"] input:checked + .slider .label-left { color: #ffffff; }
-        [data-theme="dark"] input:checked + .slider .label-right { color: #000000; }
-        [data-theme="dark"] input:not(:checked) + .slider .label-left { color: #000000; }
-
-        /* --- CONTENT SECTIONS --- */
-        .content-section {
-            width: 100%;
-            max-width: 600px;
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-        }
-        #introduction {
-            line-height: 1.7;
-            text-align: justify;
-            font-size: 0.95rem;
-            word-break: keep-all;
-        }
-
-        /* --- DICTIONARY TAB --- */
-        .alphabet-container {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        @media (max-width: 380px) {
-            .alphabet-container { grid-template-columns: repeat(5, 1fr); }
-        }
-        .letter-btn {
-            background: none;
-            border: 1px solid #ffffff;
-            color: #ffffff;
-            padding: 10px 0;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 6px;
-            text-align: center;
-            -webkit-appearance: none;
-        }
-        .letter-btn:hover, .letter-btn.active {
-            background-color: #ffffff;
-            color: #000000;
-        }
-
-        .word-detail {
-            display: none;
-            text-align: center;
-            margin-top: 15px;
-            width: 100%;
-        }
-        .big-letter {
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        .meaning-ko {
-            font-size: 1.2rem;
-            margin-bottom: 6px;
-            font-weight: 500;
-            word-break: keep-all;
-        }
-        .meaning-en {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 25px;
-        }
-        .artwork-box {
-            width: 100%;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 12px;
-            background: linear-gradient(45deg, #ff0055, #ff5500, #ffcc00, #00ccff); 
-            border-radius: 12px;
-        }
-        .artwork-box img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 6px;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>추억의 사전</h1>
-        <p>Dictionary of the Lost Memories</p>
-    </header>
-
-    <div class="toggle-container">
-        <label class="switch">
-            <input type="checkbox" id="modeToggle">
-            <span class="slider">
-                <span class="label-left">Introduction</span>
-                <span class="label-right">Dictionary</span>
-            </span>
-        </label>
-    </div>
-
-    <section id="introduction" class="content-section active">
-        <p>프로젝트 소개 내용을 여기에 입력하세요. (Introduction content goes here)</p>
-    </section>
-
-    <section id="dictionary" class="content-section">
-        <div class="alphabet-container">
-            <button class="letter-btn" onclick="showWord('A')">A</button>
-            <button class="letter-btn" onclick="showWord('B')">B</button>
-            <button class="letter-btn" onclick="showWord('C')">C</button>
-            <button class="letter-btn" onclick="showWord('D')">D</button>
-            <button class="letter-btn" onclick="showWord('E')">E</button>
-            <button class="letter-btn" onclick="showWord('F')">F</button>
-            <button class="letter-btn" onclick="showWord('G')">G</button>
-            <button class="letter-btn" onclick="showWord('H')">H</button>
-            <button class="letter-btn" onclick="showWord('I')">I</button>
-            <button class="letter-btn" onclick="showWord('J')">J</button>
-            <button class="letter-btn" onclick="showWord('K')">K</button>
-            <button class="letter-btn" onclick="showWord('L')">L</button>
-            <button class="letter-btn" onclick="showWord('M')">M</button>
-            <button class="letter-btn" onclick="showWord('N')">N</button>
-            <button class="letter-btn" onclick="showWord('Ñ')">Ñ</button>
-            <button class="letter-btn" onclick="showWord('O')">O</button>
-            <button class="letter-btn" onclick="showWord('P')">P</button>
-            <button class="letter-btn" onclick="showWord('Q')">Q</button>
-            <button class="letter-btn" onclick="showWord('R')">R</button>
-            <button class="letter-btn" onclick="showWord('S')">S</button>
-            <button class="letter-btn" onclick="showWord('T')">T</button>
-            <button class="letter-btn" onclick="showWord('U')">U</button>
-            <button class="letter-btn" onclick="showWord('V')">V</button>
-            <button class="letter-btn" onclick="showWord('W')">W</button>
-            <button class="letter-btn" onclick="showWord('X')">X</button>
-            <button class="letter-btn" onclick="showWord('Y')">Y</button>
-            <button class="letter-btn" onclick="showWord('Z')">Z</button>
-        </div>
-
-        <div id="wordDetail" class="word-detail">
-            <div class="big-letter" id="displayLetter">A</div>
-            <div class="meaning-ko" id="displayKo">한국어 설명</div>
-            <div class="meaning-en" id="displayEn">English explanation</div>
-            <div class="artwork-box">
-                <img id="displayImg" src="" alt="Artwork">
-            </div>
-        </div>
-    </section>
-
-    <script>
-        const modeToggle = document.getElementById('modeToggle');
-        const introSection = document.getElementById('introduction');
-        const dictSection = document.getElementById('dictionary');
-        const wordDetail = document.getElementById('wordDetail');
-
-        const dictionaryData = {
-            'A': { ko: '추억 / 기억', en: 'Memory / Remembrance', img: 'images/a-art.png' },
-            'B': { ko: '상자', en: 'Box', img: 'images/b-art.png' },
-            'C': { ko: '노래', en: 'Song', img: 'images/c-art.png' }
-        };
-
-        modeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                introSection.classList.remove('active');
-                dictSection.classList.add('active');
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-                dictSection.classList.remove('active');
-                introSection.classList.add('active');
+# Group the interview data by number
+groups = {}
+for row in itv_data:
+    g_num = row.get("Unnamed: 1")
+    if g_num is not None:
+        try:
+            num = int(float(g_num))
+            groups[num] = {
+                "q_ko": row.get("KO") or "",
+                "q_en": row.get("EN") or "",
+                "a_ko": row.get("Unnamed: 3") or "",
+                "a_en": row.get("Unnamed: 5") or ""
             }
-        });
+        except ValueError:
+            pass
 
-        function showWord(letter) {
-            const buttons = document.querySelectorAll('.letter-btn');
-            buttons.forEach(btn => {
-                if(btn.textContent === letter) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
+# Category data config
+categories = [
+    {
+        "id": "memories_of_senses",
+        "num": "1",
+        "ko": "감각의 기억",
+        "en": "Memories of senses",
+        "elements": [
+            {"type": "img", "id": 6},
+            {"type": "group", "id": 1},
+            {"type": "img", "id": 8},
+            {"type": "group", "id": 3},
+            {"type": "img", "id": 13},
+            {"type": "group", "id": 4},
+            {"type": "img", "id": 7},
+            {"type": "group", "id": 2},
+            {"type": "img", "id": 14},
+            {"type": "group", "id": 5}
+        ]
+    },
+    {
+        "id": "strange_encounters",
+        "num": "2",
+        "ko": "낯선 만남",
+        "en": "Strange encounters",
+        "elements": [
+            {"type": "group", "id": 6},
+            {"type": "img", "id": 15},
+            {"type": "group", "id": 10},
+            {"type": "group", "id": 11},
+            {"type": "img", "id": 9},
+            {"type": "group", "id": 7},
+            {"type": "img", "id": 2},
+            {"type": "group", "id": 8},
+            {"type": "group", "id": 9}
+        ]
+    },
+    {
+        "id": "longing_and_identity",
+        "num": "3",
+        "ko": "그리움과 정체성",
+        "en": "Longing and identity",
+        "elements": [
+            {"type": "group", "id": 12},
+            {"type": "group", "id": 13},
+            {"type": "img", "id": 12},
+            {"type": "group", "id": 14},
+            {"type": "group", "id": 15},
+            {"type": "img", "id": 4},
+            {"type": "group", "id": 16}
+        ]
+    },
+    {
+        "id": "untold_stories",
+        "num": "4",
+        "ko": "말하지 못한 이야기",
+        "en": "Untold stories",
+        "elements": [
+            {"type": "group", "id": 20},
+            {"type": "img", "id": 17},
+            {"type": "group", "id": 17},
+            {"type": "group", "id": 18},
+            {"type": "img", "id": 16},
+            {"type": "group", "id": 19}
+        ]
+    },
+    {
+        "id": "between_two_worlds",
+        "num": "5",
+        "ko": "두 세계 사이에서",
+        "en": "Between two worlds",
+        "elements": [
+            {"type": "group", "id": 22},
+            {"type": "group", "id": 25},
+            {"type": "img", "id": 5},
+            {"type": "group", "id": 21},
+            {"type": "group", "id": 23},
+            {"type": "img", "id": 10},
+            {"type": "group", "id": 24},
+            {"type": "group", "id": 26},
+            {"type": "group", "id": 27},
+            {"type": "img", "id": 20},
+            {"type": "group", "id": 29},
+            {"type": "img", "id": 18},
+            {"type": "group", "id": 28},
+            {"type": "group", "id": 30}
+        ]
+    }
+]
 
-            const data = dictionaryData[letter];
-            if (data) {
-                document.getElementById('displayLetter').textContent = letter;
-                document.getElementById('displayKo').textContent = data.ko;
-                document.getElementById('displayEn').textContent = data.en;
-                document.getElementById('displayImg').src = data.img;
-                wordDetail.style.display = 'block';
-            } else {
-                document.getElementById('displayLetter').textContent = letter;
-                document.getElementById('displayKo').textContent = '준비 중인 단어입니다.';
-                document.getElementById('displayEn').textContent = 'Coming soon.';
-                document.getElementById('displayImg').src = '';
-                wordDetail.style.display = 'block';
-            }
+def clean_text(t):
+    if not t:
+        return ""
+    return t.strip().replace("<", "&lt;").replace(">", "&gt;")
+
+# Build Interview Panel HTML
+itv_html = []
+for cat in categories:
+    itv_html.append(f'    <!-- Category {cat["num"]}: {cat["id"]} -->')
+    itv_html.append(f'    <div class="itv-category-header">')
+    itv_html.append(f'      <div class="itv-cat-num">{cat["num"]}</div>')
+    itv_html.append(f'      <h2 class="itv-cat-ko">{cat["ko"]}</h2>')
+    itv_html.append(f'      <p class="itv-cat-en">{cat["en"]}</p>')
+    itv_html.append(f'    </div>')
+    
+    group_idx = 0
+    for el in cat["elements"]:
+        if el["type"] == "img":
+            itv_html.append(f'    <img src="image/{el["id"]}.png" alt="Illustration {el["id"]}" class="itv-img" loading="lazy"/>')
+        elif el["type"] == "group":
+            g_id = el["id"]
+            g_data = groups.get(g_id)
+            if not g_data:
+                print(f"WARNING: Group {g_id} not found!")
+                continue
+            align = "align-left" if group_idx % 2 == 0 else "align-right"
+            group_idx += 1
+            
+            itv_html.append(f'    <div class="itv-group {align}">')
+            itv_html.append(f'      <div class="itv-q-ko">{clean_text(g_data["q_ko"])}</div>')
+            itv_html.append(f'      <div class="itv-q-en">{clean_text(g_data["q_en"])}</div>')
+            itv_html.append(f'      <div class="itv-a-wrap">')
+            itv_html.append(f'        <div class="itv-a-ko">{clean_text(g_data["a_ko"])}</div>')
+            itv_html.append(f'        <div class="itv-a-en">{clean_text(g_data["a_en"])}</div>')
+            itv_html.append(f'      </div>')
+            itv_html.append(f'    </div>')
+
+with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/itv_panel.html", "w", encoding="utf-8") as f:
+    f.write("\n".join(itv_html))
+
+# Load introduction text
+with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/intro_raw.json", "r", encoding="utf-8") as f:
+    intro_raw = json.load(f)
+
+intro_dict = {}
+for row in intro_raw:
+    key = row.get("Unnamed: 0")
+    if key is not None:
+        intro_dict[str(key)] = {
+            "ko": row.get("Unnamed: 1") or "",
+            "en": row.get("Unnamed: 2") or ""
         }
-    </script>
-</body>
-</html>
+
+intro_html = []
+intro_html.append('<div class="intro-wrap">')
+# Main title
+main_title = intro_dict.get("main_title")
+intro_html.append('    <div class="intro-main-title-wrap">')
+intro_html.append(f'      <h1 class="intro-main-ko">{clean_text(main_title["ko"])}</h1>')
+intro_html.append(f'      <p class="intro-main-en">{clean_text(main_title["en"])}</p>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="intro-pic-wrap"><img src="image/19.png" alt="" class="intro-pic" loading="lazy" /></div>')
+
+sub_title = intro_dict.get("sub_title")
+intro_html.append('    <div class="intro-subtitle-wrap">')
+intro_html.append(f'      <h2 class="intro-subtitle-ko" style="white-space:nowrap;">{clean_text(sub_title["ko"])}</h2>')
+intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title["en"])}</p>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="info-group">')
+for i in ["1", "2", "3", "4"]:
+    item = intro_dict.get(i)
+    intro_html.append('      <div class="info-item">')
+    intro_html.append(f'        <p class="info-ko">{clean_text(item["ko"])}</p>')
+    intro_html.append(f'        <p class="info-en">{clean_text(item["en"])}</p>')
+    intro_html.append('      </div>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="intro-pic-wrap"><img src="image/1.png" alt="" class="intro-pic" loading="lazy" /></div>')
+
+sub_title2 = intro_dict.get("sub_title2")
+intro_html.append('    <div class="intro-subtitle-wrap">')
+intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title2["ko"])}</h2>')
+intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title2["en"])}</p>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="info-group">')
+work_exp = intro_dict.get("Work Explanation")
+intro_html.append('      <div class="info-item">')
+intro_html.append(f'        <p class="info-ko">{clean_text(work_exp["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(work_exp["en"])}</p>')
+intro_html.append('      </div>')
+
+item5 = intro_dict.get("5")
+intro_html.append('      <div class="info-item" style="text-align:left">')
+intro_html.append(f'        <p class="info-ko">{clean_text(item5["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(item5["en"])}</p>')
+intro_html.append('      </div>')
+
+item6 = intro_dict.get("6")
+intro_html.append('      <div class="info-item" style="text-align:right">')
+intro_html.append(f'        <p class="info-ko">{clean_text(item6["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(item6["en"])}</p>')
+intro_html.append('      </div>')
+
+item7 = intro_dict.get("7")
+intro_html.append('      <div class="info-item">')
+intro_html.append(f'        <p class="info-ko">{clean_text(item7["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(item7["en"])}</p>')
+intro_html.append('      </div>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="intro-pic-wrap"><img src="image/P3.png" alt="" class="intro-pic" loading="lazy" /></div>')
+
+sub_title3 = intro_dict.get("sub_title3")
+intro_html.append('    <div class="intro-subtitle-wrap align-left">')
+intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title3["ko"])}</h2>')
+intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title3["en"])}</p>')
+intro_html.append('    </div>')
+
+item8 = intro_dict.get("8")
+intro_html.append('    <div class="info-group align-left">')
+intro_html.append('      <div class="info-item">')
+intro_html.append(f'        <p class="info-ko">{clean_text(item8["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(item8["en"])}</p>')
+intro_html.append('      </div>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="intro-pic-wrap"><img src="image/P4.png" alt="" class="intro-pic" loading="lazy" /></div>')
+
+sub_title4 = intro_dict.get("sub_title4")
+intro_html.append('    <div class="intro-subtitle-wrap align-right">')
+intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title4["ko"])}</h2>')
+intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title4["en"])}</p>')
+intro_html.append('    </div>')
+
+item9 = intro_dict.get("9")
+intro_html.append('    <div class="info-group align-right">')
+intro_html.append('      <div class="info-item">')
+intro_html.append(f'        <p class="info-ko">{clean_text(item9["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(item9["en"])}</p>')
+intro_html.append('      </div>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="intro-pic-wrap"><img src="image/P5.png" alt="" class="intro-pic" loading="lazy" /></div>')
+
+sub_title5 = intro_dict.get("sub_title5")
+intro_html.append('    <div class="intro-subtitle-wrap align-left">')
+intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title5["ko"])}</h2>')
+intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title5["en"])}</p>')
+intro_html.append('    </div>')
+
+item10 = intro_dict.get("10")
+intro_html.append('    <div class="info-group align-left">')
+intro_html.append('      <div class="info-item">')
+intro_html.append(f'        <p class="info-ko">{clean_text(item10["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(item10["en"])}</p>')
+intro_html.append('      </div>')
+intro_html.append('    </div>')
+
+intro_html.append('    <div class="intro-pic-wrap"><img src="image/P6.png" alt="" class="intro-pic" loading="lazy" /></div>')
+
+final = intro_dict.get("final")
+intro_html.append('    <div class="info-group final-block">')
+intro_html.append('      <div class="info-item">')
+intro_html.append(f'        <p class="info-ko">{clean_text(final["ko"])}</p>')
+intro_html.append(f'        <p class="info-en">{clean_text(final["en"])}</p>')
+intro_html.append('      </div>')
+intro_html.append('    </div>')
+
+intro_html.append('</div>')
+
+with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/intro_panel.html", "w", encoding="utf-8") as f:
+    f.write("\n".join(intro_html))
+
+print("Successfully updated HTML blocks.")
