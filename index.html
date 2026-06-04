@@ -60,6 +60,7 @@
       z-index:0;
     }
     body.dark .toggle-slider{background:#f0f0f0;}
+    /* slider positions */
     .toggle-container[data-tab="intro"]  .toggle-slider{transform:translateX(0%);}
     .toggle-container[data-tab="dict"]   .toggle-slider{transform:translateX(100%);}
     .toggle-container[data-tab="itv"]    .toggle-slider{transform:translateX(200%);}
@@ -72,6 +73,7 @@
       color:#111;transition:color var(--ts);border-radius:999px;
     }
     body.dark .toggle-btn{color:#f0f0f0;}
+    /* active tab text color */
     .toggle-container[data-tab="intro"]  #btn-intro,
     .toggle-container[data-tab="dict"]   #btn-dict,
     .toggle-container[data-tab="itv"]    #btn-itv{color:#fff;}
@@ -87,10 +89,12 @@
 
     /* INTRODUCTION */
     .intro-wrap{max-width:var(--max-w);margin:0 auto;padding:0 var(--px) 6rem;text-align:center;}
+
     .intro-main-title-wrap{margin-bottom:clamp(50px,8vw,100px);}
     .intro-main-ko{font-family:var(--font-ko);font-size:clamp(2.2rem,8vw,7rem);font-weight:700;line-height:1.15;}
     .intro-main-en{font-family:var(--font-en);font-size:clamp(.75rem,2.3vw,2.1rem);font-weight:400;margin-top:20px;color:var(--gray-en);}
     body.dark .intro-main-en{color:var(--gray-en-dark);}
+
     .intro-pic-wrap{margin:clamp(40px,6vw,100px) auto clamp(30px,5vw,80px);text-align:center;}
     .intro-pic{width:40%;max-width:40%;height:auto;display:inline-block;}
 
@@ -99,19 +103,26 @@
     .intro-subtitle-ko{font-family:var(--font-ko);font-size:clamp(1.4rem,4.5vw,4rem);font-weight:700;line-height:1.2;}
     .intro-subtitle-en{font-family:var(--font-en);font-size:clamp(.7rem,2vw,1.9rem);font-weight:400;margin-top:12px;color:var(--gray-en);}
     body.dark .intro-subtitle-en{color:var(--gray-en-dark);}
+
+    /* sub-titles 3/4/5 — 40% smaller */
     .intro-subtitle-wrap.sub345 .intro-subtitle-ko{font-size:clamp(.95rem,2.8vw,2.4rem);}
     .intro-subtitle-wrap.sub345 .intro-subtitle-en{font-size:clamp(.65rem,1.4vw,1.15rem);}
-    .intro-subtitle-wrap.align-left, .info-group.align-left{text-align:left;}
-    .intro-subtitle-wrap.align-right, .info-group.align-right{text-align:right;}
+
+    /* ALIGNMENT VARIANTS */
+    .intro-subtitle-wrap.align-left,
+    .info-group.align-left{text-align:left;}
+    .intro-subtitle-wrap.align-right,
+    .info-group.align-right{text-align:right;}
 
     /* INFO ITEMS */
     .info-group{display:flex;flex-direction:column;gap:clamp(20px,3.5vw,50px);margin-bottom:clamp(30px,5vw,70px);}
+    .info-item{}
     .info-ko{font-family:var(--font-ko);font-size:clamp(.88rem,2vw,1.05rem);font-weight:400;line-height:1.9;white-space:pre-wrap;}
     .info-en{font-family:var(--font-en);font-size:clamp(.73rem,1.6vw,.88rem);font-weight:300;font-style:italic;line-height:1.75;color:var(--gray-en);margin-top:6px;white-space:pre-wrap;}
     body.dark .info-en{color:var(--gray-en-dark);}
     .final-block{margin-top:clamp(30px,5vw,70px);}
 
-    /* ALPHABET */
+    /* ALPHABET — sticky */
     .alphabet-sticky-wrap{position:sticky;top:0;z-index:100;background:#0e0e0e;padding:8px var(--px);box-shadow:0 4px 16px rgba(0,0,0,.5);}
     .alphabet-row{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(3px,.8vw,6px);}
     .alpha-btn{
@@ -122,7 +133,7 @@
     }
     .alpha-btn:hover,.alpha-btn.active{background:#f0f0f0;color:#0e0e0e;}
 
-    /* DICTIONARY ENTRY */
+    /* ENTRY */
     #entry-section{display:none;text-align:center;animation:fadeIn .4s ease;padding-top:2.5rem;}
     #entry-section.visible{display:block;}
     .entry-letter{font-family:var(--font-en);font-size:clamp(5rem,18vw,12rem);font-weight:300;color:#fff;line-height:1;margin-bottom:70px;letter-spacing:-.02em;}
@@ -131,6 +142,7 @@
     .entry-ko-body{font-family:var(--font-ko);font-size:clamp(.84rem,2.1vw,1.06rem);font-weight:400;line-height:1.85;color:#d8d8d8;max-width:680px;margin:0 auto 15px;}
     .entry-en-head{font-family:var(--font-en);font-size:clamp(.78rem,2vw,1rem);font-weight:400;font-style:italic;color:#b0b0b0;margin-bottom:4px;}
     .entry-en-body{font-family:var(--font-en);font-size:clamp(.72rem,1.8vw,.92rem);font-weight:300;font-style:italic;line-height:1.8;color:#888;max-width:680px;margin:0 auto 2.5rem;}
+    /* answer — handwriting, larger */
     .entry-answer-ko{font-family:var(--font-hand);font-size:clamp(1.4rem,3.4vw,1.85rem);font-weight:400;line-height:2;color:#d8d8d8;max-width:680px;margin:2rem auto .5rem;}
     .entry-answer-en{font-family:var(--font-hand);font-size:clamp(1.1rem,2.6vw,1.55rem);font-weight:400;line-height:1;color:#888;max-width:680px;margin:0 auto 4rem;}
     .entry-answer-en .sentence{display:block;margin-bottom:.45em;}
@@ -172,31 +184,24 @@
       margin-bottom: clamp(3rem, 8vw, 6rem);
       width: 100%;
     }
-    .itv-group.align-left { text-align: left; }
-    .itv-group.align-right { text-align: right; }
+    .itv-group.align-left {
+      text-align: left;
+    }
+    .itv-group.align-right {
+      text-align: right;
+    }
 
-    /* Interview Typography Updates */
     .itv-q-ko {
       font-family: var(--font-ko);
-      font-size: clamp(0.95rem, 2.2vw, 1.15rem); /* Q_KO size */
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
       font-weight: 600;
       color: #fff;
       line-height: 1.6;
       white-space: pre-wrap;
     }
-    
-    .itv-a-ko {
-      font-family: var(--font-ko); /* Đổi sang Pretendard */
-      font-size: clamp(0.75rem, 1.8vw, 0.95rem); /* Nhỏ hơn Q_KO 2 size */
-      font-weight: 400; /* Normal */
-      color: #d8d8d8;
-      line-height: 1.8;
-      white-space: pre-wrap;
-    }
-
-    .itv-q-en, .itv-a-en {
+    .itv-q-en {
       font-family: var(--font-en);
-      font-size: clamp(0.75rem, 1.6vw, 0.9rem); /* Q_EN và A_EN bằng size nhau */
+      font-size: clamp(0.8rem, 1.8vw, 0.95rem);
       font-weight: 400;
       font-style: italic;
       color: #888;
@@ -208,12 +213,28 @@
     .itv-a-wrap {
       margin-top: clamp(15px, 3.5vw, 20px);
     }
+    .itv-a-ko {
+      font-family: var(--font-ko);
+      font-size: calc(clamp(0.95rem, 2.2vw, 1.15rem) - 0.15rem); 
+      font-weight: 400; 
+      color: #d8d8d8;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+    .itv-a-en {
+      font-family: var(--font-en);
+      font-size: clamp(0.8rem, 1.8vw, 0.95rem); 
+      font-weight: 400;
+      color: #888;
+      line-height: 1.6;
+      margin-top: 8px;
+      white-space: pre-wrap;
+    }
 
-    /* Interview Image - Tăng kích thước 50% (Từ 40% lên 60%) */
     .itv-img {
       display: block;
       margin: clamp(2.5rem, 6vw, 4.5rem) auto;
-      max-width: 60%; 
+      max-width: 60%;
       height: auto;
     }
 
@@ -221,7 +242,7 @@
     footer{text-align:center;padding:clamp(1.2rem,3vw,2rem) var(--px);font-family:var(--font-en);font-size:clamp(.55rem,1.2vw,.68rem);color:#aaa;letter-spacing:.1em;border-top:1px solid rgba(128,128,128,.15);margin-top:2rem;}
     body.dark footer{color:#555;}
 
-    /* BACK-TO-TOP */
+    /* BACK-TO-TOP fixed */
     .back-top{
       position:fixed;bottom:clamp(14px,2.5vw,24px);left:50%;transform:translateX(-50%);
       z-index:999;width:clamp(38px,7vw,50px);height:clamp(38px,7vw,50px);
@@ -235,6 +256,12 @@
     .back-top.light-mode{background:rgba(180,180,180,.7);color:#333;opacity:1;}
     .back-top.dark-mode {background:rgba(255,255,255,.15);color:#fff;opacity:.5;}
     .back-top:hover{opacity:1!important;}
+
+    /* RESPONSIVE */
+    @media(max-width:480px){
+      .intro-pic{width:40%;max-width:40%;}
+      .intro-main-ko{letter-spacing:-.02em;}
+    }
   </style>
 </head>
 <body>
@@ -271,8 +298,158 @@
 가족도 친구도 없는 이곳에서, 우리는 다시 한번 홀로 서는 법을 배워야만 했습니다.</p>
           <p class="info-en">When we left our homeland for South Korea, we carried more than just heavy suitcases; we carried dreams of a brilliant life. Yet, reality proved to be a harsh "rebirth"—a place where we were forced to grow up once more, without the embrace of family or friends.</p>
         </div>
+        <div class="info-item">
+          <p class="info-ko">성인이 된 우리는 이곳에서 갑자기 어린아이가 되었습니다.
+새로운 언어를 더듬거리며 배우고, 낯선 이와 대화하는 법을 익히며,
+때로는 터무니없는 실수를 저질러 스스로가 한없이 작고 서툴게 느껴지기도 합니다.
+비좁은 어휘력에 맞추기 위해 우리 마음을 억지로 '단순화'하고,
+어린아이처럼 말하며 스스로가 부족하게 느껴지는 순간에도 우리는 매일 치열하게 노력합니다.</p>
+          <p class="info-en">In our adulthood, we suddenly became children again: stammering through new syllables, practicing conversations with strangers, and making silly mistakes that made us feel small and clumsy. We strive every day, even if it means "simplifying" our souls to fit a limited vocabulary—speaking like infants and feeling, at times, profoundly deficient.</p>
+        </div>
+        <div class="info-item">
+          <p class="info-ko">그 강인함 뒤에는 소리 없는 갈등이 숨어 있습니다. 잔인한 선택: 
+- 안정된 미래를 위해 이곳에 남을 것인가, 아니면 가족들이 아직 건강할 때 그들 곁으로 돌아갈 것인가?
+- 보이지 않는 두려움: 이곳에서의 하루가 가족과 함께할 수 있는 마지막 순간들을 잃어가는 시간은 아닐까 하는 공포.
+돌아갔을 때는 이미 손에 닿지 않는 기억이 되어버리지는 않을까 두렵습니다.</p>
+          <p class="info-en">Behind that resilience lie silent inner conflicts: A cruel choice: 
+- To stay and build a stable career, or to return and be near family while they are still healthy?   
+- An invisible fear: The dread that every day spent here is a day missing final moments with loved ones, fearing that by the time we return, all that remains will be unreachable memories.</p>
+        </div>
+        <div class="info-item">
+          <p class="info-ko">이방인의 삶은 단순한 노력이 아닌, 뼈아픈 맞교환입니다. 이 프로젝트는 그 공감에서 시작되었습니다.기억의 이름을 불러주고, 기록하며, 상처를 어루만지는 곳입니다.</p>
+          <p class="info-en">The life of an expatriate is not just about effort; it is about a painful trade-off. This project was born from that empathy—a place where memories are named, preserved, and wounds are soothed.</p>
+        </div>
       </div>
       <div class="intro-pic-wrap"><img src="image/1.png" alt="" class="intro-pic" loading="lazy" /></div>
+      <div class="intro-subtitle-wrap">
+        <h2 class="intro-subtitle-ko">두 세계 사이의 대화</h2>
+        <p class="intro-subtitle-en">Dialogue Between Two Worlds</p>
+      </div>
+      <div class="info-group">
+        <div class="info-item">
+          <p class="info-ko">이 작품은 단순한 사전이 아닙니다. 이것은 두 개의 대조적인 영역으로 나뉜 기억의 생태계이며,
+여러분을 이주민 영혼의 숨겨진 구석을 찾아가는 '탐색'과 공감의 여정으로 초대합니다.</p>
+          <p class="info-en">This work is more than just a dictionary; it is an ecosystem of memories split into two contrasting parts, inviting the viewer into a journey of "tracing" and empathizing with the hidden corners of a migrant’s soul:</p>
+        </div>
+        <div class="info-item" style="text-align:left">
+          <p class="info-ko">1. 기억 사전:
+27개의 알파벳(A-Z)으로 다시 정의된 회상의 언어입니다.
+ - 왼쪽 페이지 (객관적 세계): 우리가 매일 마주하는 건조한 현실을 대변하는 두 가지 언어의 정의들 입니다.
+ - 오른쪽 페이지 (내면적 세계): 언어의 장벽을 대신하는 색채와 형태, 감정들이 깃든 그림들. 원초적인 기억으로 향하는 문을 엽니다.</p>
+          <p class="info-en">1. The Dictionary of Memories:
+27 letters (A-Z) redefined through the language of nostalgia.
+ - Left Page (The Objective World): Dry definitions in two languages representing the reality we face every day.
+ - Right Page (The Internal World): Artful illustrations that open a door into the realm of original memories?where colors, shapes, and emotions replace language barriers.</p>
+        </div>
+        <div class="info-item" style="text-align:right">
+          <p class="info-ko">2. 아카이브와 스케치:
+책의 뒷부분에는 다듬어지지 매 않은 '진실의 조각들'이 보관되어 있습니다.
+ - 외로움과 불안을 담은 인터뷰 속 가장 진솔한 고백들.
+ - 투박한 스케치와 함께 제시되는 이 부분은 앞선 시각적 은유들을 풀어내는 해독제 역할을 합니다.
+ - 누군가를 온전히 이해하기 위해 왜 그들의 과거를 알아야 할까요?
+ - 상처를 이해하기 위해: 왜 깎지 않은 감자 하나가 가족에 대한 시린 슬픔을 담고 있는지.
+ - 버팀목을 발견하기 위해: 왜 배낭에 달린 작은 배지 하나가 거친 한국의 인파 속에서 한 사람을 지탱하는 유일한 '뿌리'가 되는지.
+ - 노력하고 있음을 느끼기 위해: 새로운 세계에 맞추기 위해 스스로를 '단순화'하면서도, 외롭게 빛나려 애쓰는 영혼을 마주하기 위해.</p>
+          <p class="info-en">2. The Archive & Sketches:
+Located at the back of the book, this is a sanctuary for unpolished "fragments of truth."
+ - The most authentic confessions from interviews about the loneliness and insecurity we often keep hidden.
+ - Presented with raw sketches, this section serves as a key to decoding the visual metaphors shown before.
+ - Why must we know someone's past to truly understand them?
+ - To understand a wound: Why a single unpeeled potato can carry the weight of a lingering family sorrow. 
+ - To see a root: Why a tiny pin on a backpack is the only "root" keeping a person from being swept away by the rushing crowds of Korea. 
+ - To feel the effort: To witness a soul striving to "shine brightly yet lonely," even while accepting the need to "simplify" oneself to fit into a new world.</p>
+        </div>
+        <div class="info-item">
+          <p class="info-ko">페이지를 넘겨 우리가 맞교환한 뒤에 남은 흔적들을 찾아주세요. 이곳에 있는 모든 단어는 한때 우리의 삶 그 자체였습니다.</p>
+          <p class="info-en">Please flip the page and "trace" with us what remains after every trade-off. For every word here was once a piece of our lives.</p>
+        </div>
+      </div>
+      <div class="intro-pic-wrap"><img src="image/P3.png" alt="" class="intro-pic" loading="lazy" /></div>
+      <div class="intro-subtitle-wrap align-left">
+        <h2 class="intro-subtitle-ko">1. 나의 주인공에게 — 내 영혼을 비추는 거울인 당신에게</h2>
+        <p class="intro-subtitle-en">1. To My Protagonist — The Mirror of My Soul</p>
+      </div>
+      <div class="info-group align-left">
+        <div class="info-item">
+          <p class="info-ko">당신의 기억 속 가장 깊은 곳의 조각들을 아낌없이 공유해 주고, 또 저를 믿어준 주인공에게 진심으로 감사의 마음을 전합니다. 
+저는 당신의 인터뷰 답변 하나하나에 귀를 기울이는 동안, 
+마치 내가 한국에서의 첫발을 내딛든 무렵의 나 자신을 만나는 듯한 기분이 들었습니다. 
+많은 사람들 속에서 홀로 걷던 외로운 모습 말이지요.
+완전히 낯선 세계에 적응해 나가며 마주해야 했던 갖가지 외로움과 소외감, 
+그리고 보이지 않는 곳에 새겨진 마음의 상처들을 저는 깊은 마음으로 이해합니다. 
+저 역시 보이지 않는 장벽 앞에서 스스로에게 무력감과 어색함,
+어리석음을 느끼며 실망하고 좌절했던 적이 셀 수 없이 많았으니까요.
+만약 언젠가 나만의 사전을 쓰게 된다면, 
+그 사전은 분명 당신의 사전과 정확히 같은 주파수로 공명할 것이라 확신합니다. 
+비록 사용하는 어휘와 언어는 다를지라도, 
+그 외로움의 밀도와 소리 없는 분투의 희미한 흔적들은 언제나 모든 줄마다 깊이 스며들어, 
+페이지마다 붉게 배어 나올 테니까요.
+당신에게, 그리고 우연히 이 책장을 넘기게 된 모든 분들께: 
+당신이 누구이든, 그리고 어떤 상황에 마주하고 있든, 부디 절대 포기하지 마세요. 
+비록 지금 이 순간에 압도될 만큼 무력하고 외롭게 느껴질지라도, 당신은 혼자가 아닙니다. 
+당신과 똑같은 감정의 심연을 걸어왔고, 걷고 있으며, 앞으로 걸어갈 수많은 이들이 존재하니까요. 
+그저 우리는 때로 그 마음을 감춘 채, 살아남기 위해 앞만 보고 달리느라 잊고 살 뿐입니다. 
+서로 닮은 영혼들이 서로 연결되는 것만으로도 얼마나 거대한 위로와 안도감을 얻을 수 있는지를 말이지요.
+이 작품이 세상에 나올 수 있도록 도와주셔서,
+그리고 우리가 이 여정을 함께 버텨내며 살아가고 있음을 깨닫게 해주셔서 진심으로 감사드립니다.</p>
+          <p class="info-en">I would like to express my deepest and most heartfelt gratitude to my protagonist for generously sharing and trusting me with the most private fragments of your memories. As I listened intently to each of your interview responses, it felt as though I was looking directly at a mirror of my own first days in Korea—a solitary wanderer drifting through a rushing crowd. I understand, on a profound level, every layer of your loneliness, the haunting sense of alienation, and the hidden bruises that come with trying to adapt to an entirely unfamiliar world. There were more than a dozen times when I, too, felt utterly disappointed in myself, feeling helpless, awkward, and foolish before invisible barriers.
+If the day comes when I write a dictionary of my own, I am certain it will resonate on the exact same frequency as yours. Though the vocabulary and languages may differ, the density of that loneliness and the faint traces of silent struggles will always remain, deeply woven into every line and bleeding through every page.
+To you, and to anyone who happens to turn these pages: Whoever you are and whatever you are facing, please never give up. Even if this very moment feels overwhelmingly helpless and lonely, you are not alone. There are so many who have walked, are walking, or will walk through the exact same emotional depths as you. It is just that sometimes, we choose to hide it, running blindly in pursuit of survival, forgetting that simply finding a connection between kindred souls can bring immense comfort and reassurance. Thank you for helping me bring this work to life, and for letting me know that we are surviving this journey together.</p>
+        </div>
+      </div>
+      <div class="intro-pic-wrap"><img src="image/P4.png" alt="" class="intro-pic" loading="lazy" /></div>
+      <div class="intro-subtitle-wrap align-right">
+        <h2 class="intro-subtitle-ko">2. 노준구 교수님께 — 용기의 길을 열어주신 분에게</h2>
+        <p class="intro-subtitle-en">2. To Professor Noh Jun Gu — The One Who Opened the Path to Courage</p>
+      </div>
+      <div class="info-group align-right">
+        <div class="info-item">
+          <p class="info-ko">이 프로젝트를 진행하는 동안 끊임없는 지도와 인내어린 가르침을 주신 노준구 교수님께
+깊은 감사의 말씀을 전하고 싶습니다. 솔직히 말씀드리면, 
+저는 제 창의성이나 드로잉 실력에 한 번도 자신감을 가져본 적이 없었습니다.
+하지만 이번 학기야말로 펜을—그것이 비록 디지털 펜일지라도—손에 쥐고,
+두려움 없이 형태와 선의 세계에 온전히 몰입해 볼 수 있는
+내 학생 시절의 마지막이자 소중한 기회 중 하나라는 것을 깨달았습니다.
+제 수준이 기술적으로 하룻밤 사이에 기적처럼 변한 것은 아니었지만, 
+제가 품고 있던 가장 큰 내면의 장벽,
+즉 '그림에 대한 두려움'과 '잘하지 못해 평가절하 될 지 모른다는 불안감'을
+극복할 수 있었던 것은 순전히 교수님의 수업 덕분이었습니다. 
+이 수업은 저에게 진정한 예술이란 완벽함이 아닌 '진심'에 있음을 가르쳐 준 안식처였습니다.</p>
+          <p class="info-en">I wish to extend my profoundest gratitude to Professor Noh Jun Gu for his constant guidance and patient mentorship throughout this project.
+To be honest, I have never felt confident in my own creativity or my technical drawing skills. Yet, I realized this semester was one of the final, precious opportunities of my student life to hold a pen—even a digital one—and fully immerse myself in a world of shapes and lines without fear.
+Though my technical skills did not miraculously transform overnight, it was through Professor's class that I conquered my greatest internal barrier: the fear of drawing, and the anxiety of being judged for not being good enough. This class was a sanctuary that taught me that true art lies not in perfection, but in sincerity.</p>
+        </div>
+      </div>
+      <div class="intro-pic-wrap"><img src="image/P5.png" alt="" class="intro-pic" loading="lazy" /></div>
+      <div class="intro-subtitle-wrap align-left">
+        <h2 class="intro-subtitle-ko">함께한 학우들에게 — 강의실을 밝혀준 따스한 불빛들에게</h2>
+        <p class="intro-subtitle-en">3. To My Peers — The Warm Lights of the Classroom</p>
+      </div>
+      <div class="info-group align-left">
+        <div class="info-item">
+          <p class="info-ko">수 많은 배움으로 가득한 잊지 못할 한 학기를 함께 만들어 준 우리 반 학우들에게 감사를 전합니다.
+직장 생활과 박사 과정을 늘 아슬아슬하게 병행하느라 항상 몸과 마음이 지쳐 있었고,
+정해진 일과 외의 활동에는 함께 참여하지 못해 문득문득 깊은 씁쓸함과
+피로감이 밀려오던 순간들이 있었습니다.
+하지만 그 빈자리를 채워준 것은 다름 아닌 여러분의 따뜻함이었습니다.
+특히, 지난 학기 동안 솔직하고 건설적인 피드백과 아낌없는
+격려를 보내준 학우 마디나(Madina)와 카밀라(Camila)에게 고마움을 전하고 싶습니다.
+여러분이 없었다면 이 책은 결코 세상에 나오지 못했을 것입니다.</p>
+          <p class="info-en">Thank you to my classmates for a memorable semester filled with invaluable lessons.
+There were moments when I could not escape a sense of sorrow and sheer exhaustion, constantly stretching myself thin to balance full-time work and my doctoral studies, leaving me unable to join in our extracurricular activities.
+Yet, it was your warmth that filled those empty spaces. In particular, I want to thank Madina and Camila for their honest, constructive feedback and their unyielding encouragement throughout the past semesters.
+This book would never have taken shape without you.</p>
+        </div>
+      </div>
+      <div class="intro-pic-wrap"><img src="image/P6.png" alt="" class="intro-pic" loading="lazy" /></div>
+      <div class="info-group final-block">
+        <div class="info-item">
+          <p class="info-ko">마지막 책장까지 잠시 걸음을 멈추고, 읽고, 또 귀 기울여 주신 모든 분께 마지막으로 감사의 인사를 전합니다.
+우리 모두가 걸어갈 앞날에 언제나 눈부시게 따스한 날들이 가득하기를 진심으로 기원합니다.</p>
+          <p class="info-en">Lastly, thank you to everyone who paused, read, and listened until this very last page.
+I sincerely wish that the path ahead for all of us is always warmed by radiant days.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -295,7 +472,478 @@
     </div>
   </section>
 
-  <section id="panel-itv"></section>
+  <section id="panel-itv">
+    <div class="itv-category-header">
+      <div class="itv-cat-num">1</div>
+      <h2 class="itv-cat-ko">감각의 기억</h2>
+      <p class="itv-cat-en">Memories of senses</p>
+    </div>
+    <img src="image/6.png" alt="Illustration 6" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">눈을 감고 고향을 떠올리면, 가장 먼저 떠오르는 소리나 냄새가 뭐야?</div>
+      <div class="itv-q-en">When you close your eyes and think of home, what is the first sound or scent that reaches you?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">눈을 감으면 고향 집 대문 앞에 서 있는 저를 발견해요.
+'세상의 끝'이라 불리는 XXX만의 차갑고도 맑은 공기 냄새가 코끝을 스칩니다. 문을 열면 저를 향해 달려오는 강아지의 목방울 소리와 반가운 짖음이 들려오고, 집 안 가득 스테이크와 감자, 토마토 샐러드가 익어가는 따뜻한 점심 냄새가 저를 맞이해 줘요.</div>
+        <div class="itv-a-en">When I close my eyes, I find myself standing at my front door.
+I can smell that crisp, cold air—a scent unique to XXX,my home at "the end of the world." 
+Then, I hear the jingle of my dog’s collar and his joyful barks as he races to meet me.Inside, the air is warm with the scent of lunch: steak, potatoes, and fresh tomato salad.</div>
+      </div>
+    </div>
+    <img src="image/8.png" alt="Illustration 8" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">고향에서 저녁 식사는 보통 어떻게 이루어졌어?
+누가 어디에 앉고, 누가 제일 많이 말하고, 분위기는 어땠어?</div>
+      <div class="itv-q-en">How were dinners usually shared at home? Who sat where, and what was the atmosphere like?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">보통 주방에 있는 둥근 탁자에 모여 앉았어요.
+아빠는 문과 제일 가까운 곳에, 그 오른쪽엔 엄마, 그다음엔 저와 제 여동생이 앉았죠. 주로 부모님이 직장 이야기나 TV 뉴스를 보며 대화를 주도하셨어요.
+솔직히 분위기가 늘 좋았던 건 아니에요.
+밤이 되면 부모님은 지쳐 계셨고, 저희는 다른 걸 하고 싶어 했으니까요.
+하지만 부모님은 우리가 배고프지 않더라도 온 가족이 함께 식탁에 앉아 있는 것을 아주 중요하게 여기셨어요.</div>
+        <div class="itv-a-en">We usually gathered in the kitchen around a round table.
+My dad sat by the door, my mom to his right, then me, and finally my sister. My parents did most of the talking, usually about work or the news playing on the TV.
+Honestly, the mood wasn't always bright; by evening, everyone was tired.
+My sister and I often wanted to be elsewhere, but my parents insisted we sit together as a family, even if we weren't hungry.
+Looking back, that forced togetherness was their way of holding us close.</div>
+      </div>
+    </div>
+    <img src="image/13.png" alt="Illustration 13" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">가족이 자주 하던 말이나 노래 중에, 이유는 모르지만 계속 기억에 남는 게 있어?</div>
+      <div class="itv-q-en">Is there a phrase or song your family often repeated that sticks with you for some reason?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">아버지가 자주 하시던 말씀이 기억나는데, 사실 그리 유쾌한 말은 아니었어요.
+여자 셋에 남자 하나인 우리 집에서, 퇴근하셨을 때 식사 준비가 안 되어 있으면 "집에 여자가 셋인데 감자 하나 깎아놓은 사람이 없네"라고 하셨죠.
+왜인지 그 말이 머릿속에 계속 남아있어요.
+저희 가족은 음악을 같이 듣는 편이 아니어서, 그런 말들이 노래 대신 기억을 채우고 있네요.</div>
+        <div class="itv-a-en">I remember something my father used to say, though it carried a bit of a sting.
+In a house of three women and one man, whenever lunch wasn't ready when he got home, he’d say, "There are three women in this house, yet not a single potato is peeled."
+It’s a sharp memory that stayed with me.
+We didn't really share music, so it’s these spoken words that echo in my mind.</div>
+      </div>
+    </div>
+    <img src="image/7.png" alt="Illustration 7" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">한국에서 먹어봤는데 "비슷하긴 한데 아닌" 음식이 있어?
+뭐가 달랐어?</div>
+      <div class="itv-q-en">Is there a food you’ve tried in Korea that is "similar but not quite the same"? What was different?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">몇 가지가 있어요.
+한국의 포테이토 피자는 엄마가 해주셨던 감자 파이와 비슷하지만, 간 소고기가 빠져서 조금 아쉬워요.
+미역국이나 계란국은 고향의 맛과 정말 똑같아서 놀라기도 했고요.
+하지만 한국에서 파는 XXX 음식들은 비슷해 보이지만 어딘가 달라요.
+재료의 차이인지, 아니면 다른 인접 국가의 레시피 때문인지 몰라도 제가 알던 그 진짜 고향의 맛은 아니거든요.</div>
+        <div class="itv-a-en">There are a few.
+The potato pizza here reminds me of a potato pie my mom used to make, though it’s missing the ground beef that would make it perfect.
+Some seaweed or egg soups here taste exactly like home.
+However, when it comes to "authentic" food from XXX sold in Korea, it’s never quite right.
+Whether it's the ingredients or recipes borrowed from other nearby countries, it just doesn't carry the soul of the food I grew up with.</div>
+      </div>
+    </div>
+    <img src="image/14.png" alt="Illustration 14" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">한국에 올 때 챙겨온 물건 중에, 남들한테는 별거 아닌데 너한테는 중요한 게 있어?</div>
+      <div class="itv-q-en">Among the things you brought to Korea, is there something that seems trivial to others but is precious to you?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">제게는 정말 소중히 아끼는 장바구니가 두 개 있어요.
+값싸고 이제는 많이 낡았지만, 혹시라도 잃어버린다면 정말 마음이 아플 거예요.
+하나는 엄마가 선물해주신 분홍색 가방이고, 다른 하나는 아빠와 함께 나들이 갔을 때 샀던 알록달록한 가방이에요.
+낡고 해진 이 물건들은 제게 작고 소중한 '집'의 조각들이에요</div>
+        <div class="itv-a-en">I have two reusable shopping bags that I treasure deeply.
+They are cheap and worn out now, but I would be heartbroken to lose them.
+One is pink, a gift from my mother.
+The other is colorful, bought during a simple outing with my father.
+They are my small, tattered pieces of home.</div>
+      </div>
+    </div>
+    <div class="itv-category-header">
+      <div class="itv-cat-num">2</div>
+      <h2 class="itv-cat-ko">낯선 만남</h2>
+      <p class="itv-cat-en">Strange encounters</p>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">한국에 처음 왔을 때, 언어 말고 사람들의 행동에서 가장 당황했던 게 뭐야?</div>
+      <div class="itv-q-en">What behavior (besides language) surprised you most when you first arrived in Korea?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">무엇보다 '속도'에 놀랐어요. 마트나 식당 직원분들이 늘 서두르는 모습에 저까지 마음이 급해지곤 하거든요.
+또, 뒷사람을 위해 문을 잡아주지 않는 문화 때문에 문에 얼굴을 부딪힐 뻔한 적도 많았죠.
+길거리에 침을 뱉는 모습도 충격이었어요.
+고향 XXX에서는 정말 무례한 행동으로 여겨지거든요.</div>
+        <div class="itv-a-en">The sheer speed of life.
+Everyone at grocery stores or restaurants seems to be in a constant rush, which makes me feel an invisible pressure to hurry too.
+I was also startled by how people don't often hold doors open, leading to a few literal "slams in the face."
+And seeing people spit on the street was a shock, as that is considered very ill-mannered back in XXX.</div>
+      </div>
+    </div>
+    <img src="image/15.png" alt="Illustration 15" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">고향에서는 자연스럽게 했는데, 여기서 숨기거나 조절하게 된 게 있어?</div>
+      <div class="itv-q-en">Is there something you did naturally at home but now hide or adjust here?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">고향에서는 가슴이 파인 옷을 입는 게 아주 자연스럽지만, 한국에서는 조심하게 돼요.
+예의에 어긋나거나 좋지 않게 보일 수 있다는 말을 들었거든요.
+또 지하철이나 버스에서 크게 통화하는 것도 자제해요.
+여기서는 무례한 행동이라는 걸 알기에 제 목소리와 행동을 계속 조절하게 돼요.</div>
+        <div class="itv-a-en">Back home, wearing clothes with cleavage is completely normal, but here I avoid it because I've learned it's often viewed as "inappropriate."
+I also refrain from speaking loudly on the phone or in public transport.
+I know it's considered rude here, so I keep my voice down and my presence quiet.</div>
+      </div>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">몸짓, 말투, 사람 간의 거리감 — 가장 크게 다르다고 느끼는 부분이 어디야?</div>
+      <div class="itv-q-en">Gestures, tone of voice, personal space—where do you feel the biggest difference?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">한국 사람들은 조금 더 거리감이 있고 차갑게 느껴질 때가 있어요. 
+고향에서는 누군가 길에서 넘어지면 다들 달려가 돕거든요.
+그런데 한국에서는 그런 상황에서도 그냥 지나치는 걸 보고 놀랐어요.
+목소리 크기는 비슷하지만, 우리에겐 평범한 손동작(검지와 엄지를 모으는 동작 등)이 여기서는 큰 오해를 살 수 있다는 것도 알게 됐죠.</div>
+        <div class="itv-a-en">I feel a certain emotional distance here.
+In XXX, if someone falls on the street, strangers rush to help.
+Here, I've seen people fall and others just pass by.
+It feels colder. 
+Our speaking volumes are similar, but I've had to learn that some of our common gestures—like the "OK" sign with the thumb and index finger—can be deeply offensive here.</div>
+      </div>
+    </div>
+    <img src="image/9.png" alt="Illustration 9" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">한국 사람들이 하는 행동 중에, "우리 집에서는 절대 안 하던 건데" 싶은 게 있어?</div>
+      <div class="itv-q-en">Is there something Koreans do that would never happen in your home?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">고향 집에서는 신발을 벗고 들어가는 일이 없어요.
+매일 바닥을 닦기 때문에 굳이 그럴 필요가 없다고 생각하거든요.
+젓가락을 쓰는 것도, 바닥에 앉거나 잠을 자는 것도 우리에겐 생소해요.
+바닥에서 자는 건 마치 '캠핑'하는 기분이거든요.
+또 한국의 엄격한 분리수거 문화도 낯설어요.
+XXX에는 그런 법이 없어서 사람들의 인식을 바꾸기가 쉽지 않을 거예요.</div>
+        <div class="itv-a-en">Back home, we never take off our shoes to enter a house; we clean the floors daily, so it’s not considered necessary.
+We don't use chopsticks, and sitting or sleeping on the floor is unheard of—to us, sleeping on the floor is like camping.
+Also, the strict rules for food waste and recycling here are entirely new.
+In XXX, we don't have laws for that, and it would be very difficult to change people's habits there.</div>
+      </div>
+    </div>
+    <img src="image/2.png" alt="Illustration 2" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">너한테는 완전히 자연스러운 행동이나 말을 했는데, 주변 한국 사람들 반응이 이상했던 적 있어?</div>
+      <div class="itv-q-en">Have you ever acted naturally, only to have Koreans react strangely?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">한 번은 음료수를 들고 버스에 타려다 기사님께 제지당한 적이 있어요.
+당황해서 어쩔 줄 몰랐는데, 나중에 친구가 그 규칙에 대해 설명해 줘서 이해하게 됐죠.
+아주 사소한 행동이었지만 제가 배워야 할 규칙이 많다는 걸 깨달은 순간이었어요.</div>
+        <div class="itv-a-en">Once, I tried to board a bus with a drink in my hand.
+The driver stopped me, and I was so flustered until a friend explained the rule to me later.
+It was a small moment, but it made me realize how many "unwritten rules" I had yet to learn.</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">처음 만나는 한국 사람들이 너를 어떻게 본다고 느껴?
+그 시선이 어때?</div>
+      <div class="itv-q-en">How do you feel first-time Korean acquaintances perceive you?
+How does that gaze make you feel?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">길을 걷거나 식당에 들어가면 사람들의 시선이 느껴질 때가 많아요.
+처음엔 놀란 표정을 짓다가 고개를 돌리기도 하고, 어떤 분들은 빤히 쳐다보기도 하죠.
+그럴 때면 참 불편해요.
+내가 외국인이라서 보는 건지, 내 얼굴에 뭐가 묻은 건지, 아니면 내가 못생겼거나 뚱뚱해서 보는 건지...
+외모에 대해 자꾸 자신감이 없어지곤 해요.</div>
+        <div class="itv-a-en">When I walk down the street or enter a restaurant, I often feel eyes on me.
+Some people look surprised and then quickly turn away; others stare for a long time.
+It makes me feel deeply insecure.
+I find myself wondering if they're looking because I'm a foreigner, or if there's something wrong with my face, or if they're judging my appearance.
+It's a heavy feeling.</div>
+      </div>
+    </div>
+    <div class="itv-category-header">
+      <div class="itv-cat-num">3</div>
+      <h2 class="itv-cat-ko">그리움과 정체성</h2>
+      <p class="itv-cat-en">Longing and identity</p>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">집이 그리운 느낌이 주로 언제 와?
+아침, 저녁, 아니면 어떤 특정한 순간에?</div>
+      <div class="itv-q-en">When does nostalgia usually hit you?
+In the morning, evening, or at a specific moment?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">주로 학교 수업을 마치고 집으로 돌아가는 길에 그리움이 밀려와요.
+집에 나를 기다려 주는 사람이 아무도 없다는 사실을 깨달을 때, 가족들과 제가 놓치고 있는 소중한 순간들이 생각나거든요.
+시차 때문에 부모님과 연락하는 밤 시간이 되면 그 공허함은 더 커지곤 해요.</div>
+        <div class="itv-a-en">It usually hits me on my way home from school.
+The realization that no one is waiting for me at the door makes me think of my family and all the milestones I am missing.
+At night, the distance feels even wider when I talk to my parents across different time zones.</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">집이 그리울 때 주로 뭘 해? 여기서 그 마음을 조금이나마 달래주는 게 있어?</div>
+      <div class="itv-q-en">What do you do when you miss home?
+Is there anything here that comforts you?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">가족들과 통화하고, 고향 친구들이나 여기서 사귄 친구들과 메시지를 주고받으면 마음이 좀 나아져요.
+예전 사진들을 들여다보기도 하고요.
+하지만 그리움이 너무 깊어질 때면, 차라리 공부에 몰두하거나 소셜 미디어(SNS)를 보면서 생각을 분산시키려고 애써요.</div>
+        <div class="itv-a-en">Talking to my family and friends—both back home and the ones I’ve made here—helps a lot.
+I look through old photos to feel connected.
+But when the sadness is too much, I try to bury myself in studying or mindless scrolling on social media just to stay distracted.</div>
+      </div>
+    </div>
+    <img src="image/12.png" alt="Illustration 12" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">한국 사람들한테 설명하고 싶은데 너무 어려운 우리 문화의 무언가가 있어?</div>
+      <div class="itv-q-en">Is there something about your culture that is difficult to explain to Koreans?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">늦게 도착하는 문화'를 설명하기가 참 어려워요.
+고향에서는 업무나 아주 중요한 약속이 아니면 약속 시간보다 늦게 가는 게 일상적이거든요.
+오후 4시 약속에 5시에 가도 친구는 화내지 않아요.
+오히려 준비할 시간이 생겨서 다행이라고 생각하죠.
+하지만 시간 약속을 철저히 지키는 한국 사람들에게 이걸 설명하면 무례하다고 생각할까 봐 늘 조심스러워요.</div>
+        <div class="itv-a-en">The concept of "social lateness."
+In XXX, for anything that isn't work or a strict appointment, arriving an hour late is normal.
+If a friend invites me at 4 PM, arriving at 5 PM is expected—it actually gives the host more time to prepare.
+Explaining this to Koreans, who value punctuality so highly, is almost impossible; they see it as a lack of respect.</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">여기서 가장 "라틴인"으로 느껴지는 순간은 언제야?
+반대로 그 감각을 잃는 순간은?</div>
+      <div class="itv-q-en">When do you feel most like a "Latina" here?
+And when do you feel that sense fading?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">스페인어를 쓰는 친구들을 만나거나 라틴 식당에 갈 때 제가 '라틴 사람'이라는 걸 가장 강하게 느껴요.
+하지만 가끔은 제가 그 전형적인 틀에 맞지 않는다는 생각도 들어요.
+흔히 라틴 사람들은 활발하고 목소리가 크다고 생각하지만, XXX 사람들은 훨씬 조용하고 내성적이거든요.
+사람들이 가진 고정관념과 제 모습이 다를 때, 제 정체성이 어디에 있는지 혼란스러울 때가 있어요.</div>
+        <div class="itv-a-en">I feel it most when I'm with Spanish-speaking friends or eating at a Latin restaurant.
+However, I often feel that the "Latina" stereotype doesn't fit me.
+People expect us to be loud and extroverted, but where I come from, we are quieter and more reserved.
+Sometimes I feel like I lose that identity because I don't fit the mold others have built for me.</div>
+      </div>
+    </div>
+    <img src="image/4.png" alt="Illustration 4" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">우리 문화에서 한 가지를 한국에 가져올 수 있다면, 뭘 가져오고 싶어? 이유는?</div>
+      <div class="itv-q-en">If you could bring one thing from your culture to Korea, what would it be?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">단연코 음식이에요. '만하르(manjar)', '쿠추플리(cuchuflis)', '엠파나다(empanadas)' 같이 한국에는 없는 그 고유한 맛들이 너무 그리워요.
+한국에는 우리 나라의 진짜 맛을 내는 식당이 없거든요.
+제 어린 시절의 추억이 담긴 고향의 맛을 이곳에서도 느낄 수 있다면 얼마나 좋을까요.</div>
+        <div class="itv-a-en">Definitely the food.
+There are so many flavors—like manjar, cuchuflis, or empanadas—that simply don't exist here.
+There are no authentic restaurants from my country in Korea.
+I wish I could share the real taste of home, the specific dishes that carry the memories of my childhood.</div>
+      </div>
+    </div>
+    <div class="itv-category-header">
+      <div class="itv-cat-num">4</div>
+      <h2 class="itv-cat-ko">말하지 못한 이야기</h2>
+      <p class="itv-cat-en">Untold stories</p>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">여기서 지내면서 네가 어떤 면에서 변한 것 같아?
+어쩌면 너 자신도 아직 입 밖에 내지 않은 변화.</div>
+      <div class="itv-q-en">How do you think you’ve changed while living here?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">제가 생각해도 참 많이 성장한 것 같아요.
+예전엔 무서워했던 일들이었던 혼자 집을 계약하고, 한국어로만 의사소통하며 병원을 가는 일들을 이제는 스스로 해내요.
+제 삶의 경계를 정하고, 저 자신을 선택하는 법도 배우고 있고요.
+더 용감해졌고, 이제야 진짜 나를 알아가는 기분이에요.</div>
+        <div class="itv-a-en">I have become much braver.
+I do things now that once terrified me—renting an apartment alone, or navigating a doctor's visit entirely in Korean.
+I’ve learned to set boundaries and to choose my own path.
+I am stronger, more independent, and I finally feel like I am truly getting to know myself.</div>
+      </div>
+    </div>
+    <img src="image/17.png" alt="Illustration 17" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">집에 전화하면 가족이 제일 먼저 하는 말이 뭐야?
+그리고 넌 솔직하게 대답해, 아니면 안심시키려고 대답해?</div>
+      <div class="itv-q-en">What is the first thing your family asks when you call?
+Do you answer honestly?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">부모님은 항상 잘 지내는지, 필요한 건 없는지부터 물으세요.
+저는 기분이 좋거나 가벼운 스트레스 정도는 솔직하게 말하지만, 정말 심각한 일은 혼자 해결할 때까지 그냥 입을 다물어요.
+멀리 계신 부모님이 걱정하실까 봐, 상황이 다 정리된 후에야 차분하게 말씀드리곤 하죠.</div>
+        <div class="itv-a-en">They always ask how I am and if everything is okay.
+If I'm happy or just mildly stressed, I'm honest.
+But if it's something serious, I keep it to myself.
+I prefer to solve my own problems and only tell them once the storm has passed, so they don't have to worry from so far away.</div>
+      </div>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">여기서의 생활 중에 가족한테 아직 말 안 한 게 있어?
+걱정할까 봐, 아니면 이해 못 할 것 같아서?</div>
+      <div class="itv-q-en">Is there something about your life here you haven't told your family yet?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">네, 많아요. 숨기고 싶어서라기보다 제 감정이 진정될 때까지 기다리는 거예요.
+제가 힘들 때 바로 말해버리면 부모님은 저보다 더 걱정하실 테니까요.
+그 힘든 시간을 스스로 견뎌내고 웃으며 말할 수 있을 때까지 기다리는 편이에요.</div>
+        <div class="itv-a-en">Yes, many things.
+It’s not that I want to hide my life, but I wait until my own emotions have settled.
+If I tell them while I'm still hurting, they will carry that weight too.
+I wait until I can speak about my struggles with a calm heart.</div>
+      </div>
+    </div>
+    <img src="image/16.png" alt="Illustration 16" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">한국에서 울었던 적이 있어?
+아니면 울고 싶었는데 참은 적?
+그때 무슨 일이 있었어?</div>
+      <div class="itv-q-en">Have you cried in Korea?
+Or wanted to but held it back?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">정말 많이 울었어요.
+주로 혼자 있을 때, 감당하기 힘든 일이 생기거나 고향이 너무 그리워서 울컥하곤 하죠.
+도저히 참을 수 없을 땐 친구들 앞에서 울기도 하고, 엄마와 통화하며 엉엉 울기도 해요.
+그렇게 울고 나면 다시 버틸 힘이 생기더라고요.</div>
+        <div class="itv-a-en">I’ve cried many times.
+Usually, I cry alone when the weight of everything feels too heavy, or when the longing for home becomes an ache.
+But sometimes, when I can't hold it anymore, I cry with my friends here or over the phone with my mother.
+Those tears are my release.</div>
+      </div>
+    </div>
+    <div class="itv-category-header">
+      <div class="itv-cat-num">5</div>
+      <h2 class="itv-cat-ko">두 세계 사이에서</h2>
+      <p class="itv-cat-en">Between two worlds</p>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">지금 네 방이나 공간을 보면, 어디서 온 사람인지 알 수 있어?
+어떤 것들이 남아있어?</div>
+      <div class="itv-q-en">If someone looked at your room, could they tell where you are from?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">제 방만 보고는 제가 어디 사람인지 모를 거예요.
+가방에 달린 작은 국기 배지가 유일한 단서겠죠.
+짐을 늘리지 않으려다 보니 여기서 산 물건들이 대부분이고, 방은 그저 단순하고 깔끔해요.
+고향의 흔적보다는 이곳에서의 삶에 적응한 흔적들이 더 많네요.</div>
+        <div class="itv-a-en">I don't think so. My space is very simple; most of what I own was bought here. The only clue might be a small flag pin on my backpack. Otherwise, my room doesn't scream where I'm from—it’s just a quiet space that has adapted to my life here.</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">한국에서 처음으로 진짜 편안하다고 느꼈던 순간이 있어?
+그게 언제였고, 어떤 상황이었어?</div>
+      <div class="itv-q-en">When was the first time you felt truly comfortable in Korea?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">기숙사 다인실에서 나와 저만의 자취방으로 이사하던 날이었어요.
+이전 룸메이트들과 힘든 시간을 보냈었기에, 오롯이 나만의 공간이 생겼다는 게 얼마나 큰 해방감이었는지 몰라요.
+그때 비로소 한국에서 내 삶을 스스로 꾸려가고 있다는 안도감이 들었어요.</div>
+        <div class="itv-a-en">It was the day I moved from a shared dormitory to my own single room.
+After some difficult experiences with roommates, having a space that was entirely mine felt like the first real step toward independence.
+For the first time, I could breathe freely.</div>
+      </div>
+    </div>
+    <img src="image/5.png" alt="Illustration 5" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">한국어로 말할 때의 너랑, 스페인어로 말할 때의 너 — 성격이 달라지는 것 같아?</div>
+      <div class="itv-q-en">Do you feel your personality changes when speaking Korean versus Spanish?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">네, 언어에 따라 제 성격도 달라지는 것 같아요.
+스페인어를 할 때는 위트 있고 유능한 사람이 되지만, 한국어를 할 때는 제 마음을 온전히 표현하지 못해 제 감정을 자꾸 '단순화'하게 돼요.
+하고 싶은 말의 절반도 못 하니 가끔은 제가 바보같이 느껴져서 속상할 때가 많아요.</div>
+        <div class="itv-a-en">Absolutely. In Spanish, I am witty, funny, and sharp. I can express every nuance of my soul. In Korean, because my vocabulary is limited, I have to "simplify" my feelings. I feel smaller, sometimes even "dim-witted," because I can't let my true personality shine through the language barrier.</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">한국 친구들이랑 있을 때 "이건 설명 못 하겠다" 하고 포기한 적 있어?
+어떤 상황이었어?</div>
+      <div class="itv-q-en">Have you ever given up on explaining something to Korean friends?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">정말 자주 그래요.
+팀 프로젝트를 할 때 제 아이디어를 제대로 설명하지 못해 답답할 때가 많거든요.
+문화적인 차이도 마찬가지예요.
+예를 들어, 저는 순수하게 춤을 추러 클럽에 가고 싶을 뿐인데 한국 친구들은 그걸 잘 이해하지 못하더라고요.
+설명하다 지쳐서 그냥 포기하고 입을 닫아버린 적이 많아요.</div>
+        <div class="itv-a-en">Many times.
+Whether it's trying to explain a complex idea in a group project or cultural differences like going to a club just to dance (not to find a partner), I often hit a wall.
+When words fail, I sometimes just choose silence or a translator, letting the explanation go.</div>
+      </div>
+    </div>
+    <img src="image/10.png" alt="Illustration 10" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">고향 가족이나 친구들은 네가 한국에서 어떻게 살고 있다고 상상한다고 생각해?
+현실이랑 얼마나 달라?</div>
+      <div class="itv-q-en">How do your family and friends back home imagine your life in Korea?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">고향 친구들은 제가 매일 여행 다니고 맛있는 거 먹으며 즐겁게 지내는 줄 알아요.
+현실은 매일 코가 깨지게 공부만 하며 생산적인 사람이 되어야 한다는 강박에 시달리고 있는데 말이죠.
+그래도 가족들과 진짜 친한 친구들은 알아요.
+제가 여기서 얼마나 불안해하고 스트레스를 받으며 버티고 있는지.</div>
+        <div class="itv-a-en">They think I'm on a constant adventure—traveling and eating out.
+In reality, I’ve been studying relentlessly, always feeling the pressure to be productive.
+My family and close friends know the truth, though—they’ve seen the anxiety and the exhaustion that comes with trying to build a life here.</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">몸이 아프거나 힘들 때, 가장 먼저 생각나는 사람이 누구야?
+그 사람한테 연락할 수 있었어?</div>
+      <div class="itv-q-en">Who do you think of first when you are sick or exhausted?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">몸이 아프면 당연히 엄마가 가장 먼저 보고 싶죠.
+하지만 멀리 있는 엄마를 걱정시키고 싶지 않아서, 옆에 있는 남자친구에게 의지하게 돼요.
+제 힘든 모습을 곁에서 지켜봐 주고 실제로 도와줄 수 있는 사람이 있다는 게 큰 위안이 돼요.</div>
+        <div class="itv-a-en">My mom is always the first person in my heart, but since I don't want to worry her, I lean on my boyfriend.
+He is here, he sees my daily struggles, and he is the one who can actually reach out and help me when I’m at my lowest.</div>
+      </div>
+    </div>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">지금 이 순간 "집"이 어딘지 물어보면 뭐라고 대답할 것 같아?</div>
+      <div class="itv-q-en">If someone asked where "home" is right now, what would you say?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">지금은 "여기가 내 집이다"라고 할 만한 곳이 없는 것 같아요.
+지금 사는 방은 너무 좁고 불편하고, 고향 부모님 집은 가면 다시 어린애가 된 것 같아 100% 편하지 않거든요.
+예전에 살던 곳은 너무 외로운 기억뿐이고요.
+저는 지금 저만의 '진짜 집'을 찾아가는 과정에 있는 것 같아요.</div>
+        <div class="itv-a-en">Honestly, I don't feel like I have one.
+My room here is too small to feel like home.
+My parents' house makes me feel like a child again, and my old apartment in the capital of XXX feels lonely.
+I am in a state of "homelessness," searching for a place where I truly belong.</div>
+      </div>
+    </div>
+    <img src="image/20.png" alt="Illustration 20" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">고향으로 돌아갔을 때, 네가 달라졌다는 걸 제일 먼저 알아챌 사람이 누구일 것 같아?
+그 사람은 뭘 보고 알까?</div>
+      <div class="itv-q-en">Who would be the first to notice how much you’ve changed when you return?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">우리 엄마요.
+엄마는 아주 세심한 분이라 금방 알아채실 거예요.
+제 얼굴 표정, 몸무게, 말투 하나하나에서 제가 얼마나 변했는지 단번에 읽어내시겠죠.
+제가 굳이 말하지 않아도 엄마는 제 성장의 흔적들을 다 알아봐 주실 거예요.</div>
+        <div class="itv-a-en">My mother.
+She is so attentive; she would see it in an instant.
+She’d look at my face, my weight, the way I speak, and the words I choose.
+She would see the invisible lines of growth and experience written all over me.</div>
+      </div>
+    </div>
+    <img src="image/18.png" alt="Illustration 18" class="itv-img" loading="lazy"/>
+    <div class="itv-group align-left">
+      <div class="itv-q-ko">한국에 오기 전의 너한테 한 가지만 말해줄 수 있다면, 뭐라고 할 것 같아?</div>
+      <div class="itv-q-en">If you could tell your past self one thing before coming to Korea, what would it be?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">"네가 그토록 원하던 길이니까 꼭 가봐.
+하지만 네 생각보다 200%는 더 힘들 거야.
+공부는 잘해내겠지만, 사람 사이의 관계나 감정적인 고통은 너를 끊임없이 시험할 거야.
+그래도 그 시간을 견디고 나면 너는 훨씬 더 강하고, 현명하고, 멋진 사람이 되어 있을 거야."</div>
+        <div class="itv-a-en">"Go. It’s what you’ve wanted for so long.
+But know this: it will be 200% harder than you imagine.
+You will thrive academically, but socially and emotionally, you will be tested.
+You will face deep sadness, but you will emerge stronger, smarter, and more beautiful than ever."</div>
+      </div>
+    </div>
+    <div class="itv-group align-right">
+      <div class="itv-q-ko">지금 네 안에 두 개의 세계가 공존하고 있다면, 그 두 세계는 평화롭게 지내고 있어, 아니면 아직도 싸우고 있어?</div>
+      <div class="itv-q-en">Are the two worlds inside you living in peace, or are they still at war?</div>
+      <div class="itv-a-wrap">
+        <div class="itv-a-ko">제 안의 두 세계는 늘 싸우고 있어요.
+안전하고 미래가 보장된 이곳에 남고 싶으면서도, 한편으로는 부모님이 건강하실 때 조금이라도 더 시간을 함께 보내고 싶거든요.
+여기에 남으면 안정을 얻는 대신 가족과의 소중한 시간을 잃고, 돌아가면 가족을 얻는 대신 제가 일궈온 성취와 안전을 포기해야 하죠.
+이 평행선 같은 고민은 아직도 현재진행형이에요.</div>
+        <div class="itv-a-en">They are in a constant tug-of-war.
+Part of me wants to stay here where it’s safe and build a future.
+But the other part is terrified of missing the remaining healthy years of my family's lives.
+If I stay, I gain safety but lose time with them.
+If I go back, I gain family but lose the security and achievements I've worked so hard for.
+My two worlds are still fighting to find a middle ground.</div>
+      </div>
+    </div>
+  </section>
 
   <footer>Copyright &copy; YOUME. All rights reserved.</footer>
 
@@ -303,9 +951,360 @@
           onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
 
   <script>
-    // ===== DICTIONARY LOGIC =====
-    // (Lược bớt biến dictionaryData dài để tiết kiệm không gian, bạn dán nguyên cục dictionaryData gốc của bạn vào đây)
-    const dictionaryData = {}; 
+const dictionaryData = {
+  "A": {
+    "letter": "A",
+    "word": "Amor",
+    "type": "n",
+    "en": "love",
+    "explain_en": "A feeling of deep affection and devotion toward a person or thing, wishing them only the best.",
+    "word_type_ko": "명사",
+    "ko": "사랑",
+    "explain_ko": "보편적인 애정의 감정. 주체에게는 누군가를 곁에 두기 위한 노력이다.",
+    "answer_en": "Treasured memories of my family, friends, and partner. To me, love is the conscious and steady effort to keep a soul woven into the fabric of your life.",
+    "answer_ko": "사랑이란, 서로 다른 세상에 있어도 누군가를 내 삶 속에 머물게 하려는 고요한 노력입니다.",
+    "image": "image/A.PNG"
+  },
+  "B": {
+    "letter": "B",
+    "word": "Bicicleta",
+    "type": "n",
+    "en": "bicycle",
+    "explain_en": "A two-wheeled vehicle powered by a person through pedals.",
+    "word_type_ko": "명사",
+    "ko": "자전거",
+    "explain_ko": "페달을 이용한 인력으로 움직이는 두 바퀴 달린 탈 것.",
+    "answer_en": "I carry the echoes of my childhood, wandering far on my bicycle with friends under the open sky.",
+    "answer_ko": "어린 시절, 친구들과 함께 자전거를 타고 끝없이 달렸던 그 자유로운 공기를 기억합니다",
+    "image": "image/B.PNG"
+  },
+  "C": {
+    "letter": "C",
+    "word": "Casa",
+    "type": "n",
+    "en": "house",
+    "explain_en": "A sanctuary for dwelling; a place of rest, nourishment, and family security.",
+    "word_type_ko": "명사",
+    "ko": "집",
+    "explain_ko": "거주를 위한 건물. 가족의 휴식, 식사, 그리고 안전이 보장되는 공간.",
+    "answer_en": "My parents' sanctuary; a place of profound stillness where I could nourish my body and rest my soul in perfect safety.",
+    "answer_ko": "부모님 집에서 누렸던 온전한 평온함. 걱정 없이 먹고 깊이 잠들 수 있었던 유일한 안식처였습니다.",
+    "image": "image/C.PNG"
+  },
+  "D": {
+    "letter": "D",
+    "word": "Dados",
+    "type": "n",
+    "en": "dice",
+    "explain_en": "Cubic pieces with dots used in board games and games of chance.",
+    "word_type_ko": "명사",
+    "ko": "주사위",
+    "explain_ko": "보드게임이나 도박에 사용되는 점이 찍힌 정육면체 도구.",
+    "answer_en": "Tiny cubes of chance that bring back the vibrant laughter of family board game nights",
+    "answer_ko": "가족들과 둘러앉아 보드게임을 하며 주사위를 던지던 그 활기찬 웃음소리가 그립습니다.",
+    "image": "image/D.PNG"
+  },
+  "E": {
+    "letter": "E",
+    "word": "Estrella",
+    "type": "n",
+    "en": "star",
+    "explain_en": "A celestial body that shines with its own light in the night sky.",
+    "word_type_ko": "명사",
+    "ko": "별",
+    "explain_ko": "밤하늘에서 스스로 빛을 내는 천체.",
+    "answer_en": "In my hometown of XXX, the night sky was so pristine that the stars shone with an almost eternal clarity.",
+    "answer_ko": "내 고향 XXX의 밤하늘은 빛이나 방해요소 없이 맑았고, 별들이 마치 손에 닿을 듯 선명하게 빛나곤 했습니다.",
+    "image": "image/E.PNG"
+  },
+  "F": {
+    "letter": "F",
+    "word": "Familia",
+    "type": "n",
+    "en": "family",
+    "explain_en": "A group of related people living together or bound by deep emotional ties",
+    "word_type_ko": "명사",
+    "ko": "가족",
+    "explain_ko": "함께 살거나 정서적 유대로 연결된 혈연 집단.",
+    "answer_en": "A sacred corner of my memory dedicated to those who define me; the invisible threads of belonging.",
+    "answer_ko": "내 삶의 모든 갈피마다 깊이 스며있는, 우리 가족이라는 이름의 따스한 조각들입니다",
+    "image": "image/F.PNG"
+  },
+  "G": {
+    "letter": "G",
+    "word": "Gato",
+    "type": "n",
+    "en": "cat",
+    "explain_en": "A domestic feline mammal, cherished as a companion animal.",
+    "word_type_ko": "명사",
+    "ko": "고양이",
+    "explain_ko": "반려 동물로 사랑받는 가축화된 고양이과 포유류 동물.",
+    "answer_en": "I once had a loyal companion, a black cat I loved dearly, until an accident took him from my world far too soon.",
+    "answer_ko": "내가 정말 사랑했던 검정색 애완용 고양이. 불의의 사고로 너무 일찍 떠나버린 그 작은 생명이 여전히 그립습니다.",
+    "image": "image/G.PNG"
+  },
+  "H": {
+    "letter": "H",
+    "word": "Helado",
+    "type": "n",
+    "en": "ice-cream",
+    "explain_en": "A sweet and cold treat made from milk, water, and various flavors.",
+    "word_type_ko": "명사",
+    "ko": "아이스크림",
+    "explain_ko": "우유, 물, 다양한 향료로 만든 달콤하고 차가운 음식.",
+    "answer_en": "The sweet, fleeting taste of watermelon ice cream shared with friends on the long walk home from school.",
+    "answer_ko": "학교가 끝나고 친구들과 나눠 먹던 시원하고 달콤한 수박 맛 아이스크림의 여운이 그립습니다.",
+    "image": "image/H.PNG"
+  },
+  "I": {
+    "letter": "I",
+    "word": "Isabella",
+    "type": "n",
+    "en": "isabella",
+    "explain_en": "A female proper name; representing a generational family bond.",
+    "word_type_ko": "명사",
+    "ko": "이사벨라",
+    "explain_ko": "여성 고유 명사. 세대 간의 가족 유대를 상징한다.",
+    "answer_en": "My niece, who feels more like a little sister; we have shared our lives from the very moment of her birth.",
+    "answer_ko": "태어날 때부터 모든 순간을 함께해온, 내게는 마치 막내 여동생 같은 소중한 조카 이사벨라입니다.",
+    "image": "image/I.PNG"
+  },
+  "J": {
+    "letter": "J",
+    "word": "Jardin",
+    "type": "n",
+    "en": "garden",
+    "explain_en": "A piece of land where plants and flowers are cultivated for delight and care.",
+    "word_type_ko": "명사",
+    "ko": "정원",
+    "explain_ko": "감상과 관리를 위해 식물과 꽃을 가꾸는 땅.",
+    "answer_en": "The paradise my mother tends with such grace, a blooming sanctuary of roses, lupins, and daisies.",
+    "answer_ko": "장미와 루핀, 데이지 꽃들이 가득한 엄마의 정원은 지친 내 영혼이 잠시 쉬어가는 마음의 숲입니다.",
+    "image": "image/J.PNG"
+  },
+  "K": {
+    "letter": "K",
+    "word": "Kéfir",
+    "type": "n",
+    "en": "Kefir",
+    "explain_en": "A dairy product fermented through a combination of bacteria and yeast.",
+    "word_type_ko": "명사",
+    "ko": "케피어/유산균 요거트",
+    "explain_ko": "박테리아와 효모의 결합으로 발효된 유제품.",
+    "answer_en": "The artisanal yogurt my mother patiently crafted; a taste that lingers as the very essence of home.",
+    "answer_ko": "어머니가 정성들여 빚어낸 수제 요거트, 그 맛은 곧 ‘집’이라는 기억으로 오래 남았습니다.",
+    "image": "image/K.PNG"
+  },
+  "L": {
+    "letter": "L",
+    "word": "Libro",
+    "type": "n",
+    "en": "book",
+    "explain_en": "A collection of bound pages forming a volume; a source of knowledge",
+    "word_type_ko": "명사",
+    "ko": "책",
+    "explain_ko": "낱장을 묶어 만든 한 권의 책. 지식의 원천이다.",
+    "answer_en": "I once lost myself in boundless stories and distant worlds; now, time seems to have stolen that sanctuary from me.",
+    "answer_ko": "예전엔 책 속에 파묻혀 수많은 꿈을 꾸곤 했는데, 이제는 그럴 여유조차 잃어버린 듯해 마음이 허전합니다.",
+    "image": "image/L.PNG"
+  },
+  "M": {
+    "letter": "M",
+    "word": "Mamá",
+    "type": "n",
+    "en": "mom",
+    "explain_en": "An affectionate term for a mother; the central figure of care.",
+    "word_type_ko": "명사",
+    "ko": "엄마",
+    "explain_ko": "어머니를 부르는 애칭. 보살핌의 중심적인 인물.",
+    "answer_en": "An ocean of memories with her; the one whose love holds me steady across the vast distance.",
+    "answer_ko": "도저히 견딜 수 없는 힘들었던 매 순간마다 나를 붙잡아 주는 사람, 엄마와 함께한 수많은 기억들입니다.",
+    "image": "image/M.PNG"
+  },
+  "N": {
+    "letter": "N",
+    "word": "Naru",
+    "type": "n",
+    "en": "Naru",
+    "explain_en": "A proper name; an affectionate designation for an animal companion.",
+    "word_type_ko": "명사",
+    "ko": "나루",
+    "explain_ko": "고유 명사. 반려동물에 대한 애정 어린 명칭.",
+    "answer_en": "The name of my sweet Naru; an adorable soul whose passing left a vast, silent void in my heart.",
+    "answer_ko": "너무나 사랑스러웠던 나의 나루. 그가 떠나던 날, 내 마음의 한 조각도 함께 떨어져 나간 듯 아팠습니다.",
+    "image": "image/N.PNG"
+  },
+  "Ñ": {
+    "letter": "Ñ",
+    "word": "Ñandú",
+    "type": "n",
+    "en": "Ñandú",
+    "explain_en": "A flightless American bird, similar to an ostrich, native to rural landscapes.",
+    "word_type_ko": "명사",
+    "ko": "냔두/남미 타조",
+    "explain_ko": "타조와 비슷한 아메리카 대륙의 새. 주로 시골 지역에 서식한다.",
+    "answer_en": "A bird of the wild plains, a symbol of the untamed freedom of the countryside in XXX.",
+    "answer_ko": "내 고향 XXX의 광활한 평원을 자유롭게 달리던 새. 그 모습은 내 뿌리의 상징이기도 합니다.",
+    "image": "image/Ñ.PNG"
+  },
+  "O": {
+    "letter": "O",
+    "word": "Oceano",
+    "type": "n",
+    "en": "ocean",
+    "explain_en": "A vast expanse of salt water surrounding the continents; a symbol of peace.",
+    "word_type_ko": "명사",
+    "ko": "대양/바다",
+    "explain_ko": "대륙을 둘러싼 거대한 소금물. 평화의 상징이다.",
+    "answer_en": "I grew up lulled by the sea; I dream of returning to a city where the horizon is always blue and peace is found in the waves.",
+    "answer_ko": "저는 평생을 바다 곁에서 자랐습니다. 언젠가 다시 바다가 보이는 곳으로 돌아가 그 고요한 평화를 만끽하고 싶습니다.",
+    "image": "image/O.PNG"
+  },
+  "P": {
+    "letter": "P",
+    "word": "Papá",
+    "type": "n",
+    "en": "dad",
+    "explain_en": "An affectionate term for a father; a provider and family guide.",
+    "word_type_ko": "명사",
+    "ko": "아빠",
+    "explain_ko": "아버지를 부르는 애칭. 가족의 부양자이자 인도자이다.",
+    "answer_en": "Fragile fragments of life with my father; memories I treasure with a quiet, lingering gratitude.",
+    "answer_ko": "무뚝뚝한 말씀 속에 숨겨진 아빠의 서툰 진심. 아빠와 함께했던 그 소박한 시간들을 소중히 간직합니다.",
+    "image": "image/P.PNG"
+  },
+  "Q": {
+    "letter": "Q",
+    "word": "Queso",
+    "type": "n",
+    "en": "cheese",
+    "explain_en": "A solid food crafted from the curds of milk.",
+    "word_type_ko": "명사",
+    "ko": "치즈",
+    "explain_ko": "우유의 커드를 굳혀 만든 고형 음식.",
+    "answer_en": "The unique soul of the artisanal cheese from my region; a simple delight I have found nowhere else.",
+    "answer_ko": "내 고향에서만 맛볼 수 있었던 그 고소한 치즈. 그 어떤 화려한 음식도 그 소박한 맛을 대신할 순 없습니다.",
+    "image": "image/Q.PNG"
+  },
+  "R": {
+    "letter": "R",
+    "word": "Radio",
+    "type": "n",
+    "en": "radio",
+    "explain_en": "A receiving device that reproduces sound signals and auditory companionship.",
+    "word_type_ko": "명사",
+    "ko": "라디오",
+    "explain_ko": "음성 신호를 재생하는 수신기이자 청각적 동반자.",
+    "answer_en": "Dining in the kitchen with my nanny, the radio humming softly as we shared toasts of sweet manjar.",
+    "answer_ko": "부모님이 일하시던 저녁, 유모 아주머니와 라디오 소리를 배경 삼아 만하르 토스트를 나눠 먹던 따뜻한 주방.",
+    "image": "image/R.PNG"
+  },
+  "S": {
+    "letter": "S",
+    "word": "Sol",
+    "type": "n",
+    "en": "sun",
+    "explain_en": "The star at the center of our solar system; a source of light and life.",
+    "word_type_ko": "명사",
+    "ko": "태양/햇살",
+    "explain_ko": "태양계의 중심인 별. 빛과 생명의 근원이다.",
+    "answer_en": "In my homeland, where shadows often lingered, the appearance of the sun was a divine gift I never took for granted.",
+    "answer_ko": "늘 어둡고 흐렸던 내 고향에서 햇살은 매일 아침 전해지는 신의 기적 같은 선물이었습니다.",
+    "image": "image/S.PNG"
+  },
+  "T": {
+    "letter": "T",
+    "word": "Tarea",
+    "type": "n",
+    "en": "homework",
+    "explain_en": "Work or labor to be completed within a specific time.",
+    "word_type_ko": "명사",
+    "ko": "숙제/과업",
+    "explain_ko": "정해진 시간 안에 완수해야 하는 작업이나 노동.",
+    "answer_en": "My youth was spent in a long corridor of ink and paper, chasing the very future I now inhabit.",
+    "answer_ko": "나의 청춘은 멀게만 느껴지는 미래를 위해 잉크와 종이로 채워진 긴 복도를 걷는 과정이었습니다.",
+    "image": "image/T.PNG"
+  },
+  "U": {
+    "letter": "U",
+    "word": "Uniforme",
+    "type": "n",
+    "en": "uniform",
+    "explain_en": "Distinctive clothing that identifies the members of an institution.",
+    "word_type_ko": "명사",
+    "ko": "교복/제복",
+    "explain_ko": "특정 기관의 구성원임을 나타내는 고유한 복장.",
+    "answer_en": "My school uniform; a fabric of belonging that kept me warm against the chill of an uncertain world.",
+    "answer_ko": "불확실한 세상 속에서 나를 따뜻하게 감싸주고 소속감을 느끼게 해주었던 나의 교복.",
+    "image": "image/U.PNG"
+  },
+  "V": {
+    "letter": "V",
+    "word": "Viaje",
+    "type": "n",
+    "en": "travel",
+    "explain_en": "The act of moving from one place to another, often far away.",
+    "word_type_ko": "명사",
+    "ko": "여행",
+    "explain_ko": "한 곳에서 다른 곳으로, 종종 먼 거리로 이동하는 행위.",
+    "answer_en": "I have journeyed further than I ever imagined, crossing borders that have shaped the very soul of who I am.",
+    "answer_ko": "상상했던 것보다 더 멀리, 더 많은 국경을 넘으며 나는 비로소 단단한 어른이 되었습니다.",
+    "image": "image/V.PNG"
+  },
+  "W": {
+    "letter": "W",
+    "word": "Walter",
+    "type": "n",
+    "en": "Walter",
+    "explain_en": "A male proper name; evoking the memory of a deceased ancestor.",
+    "word_type_ko": "명사",
+    "ko": "월터",
+    "explain_ko": "남성 고유 명사. 돌아가신 조상의 기억을 불러 일으킨다.",
+    "answer_en": "My grandfather's name; a soul I could only embrace during those fleeting summer vacations in the north.",
+    "answer_ko": "돌아가신 나의 할아버지 월터. 일 년에 한 번, 짧은 여름 방학에만 뵐 수 있었던 그리운 분입니다.",
+    "image": "image/W.PNG"
+  },
+  "X": {
+    "letter": "X",
+    "word": "Xilófono",
+    "type": "n",
+    "en": "xylophone",
+    "explain_en": "A percussion musical instrument with bars that emit sounds.",
+    "word_type_ko": "명사",
+    "ko": "실로폰",
+    "explain_ko": "소리를 내는 판을 두드려 연주하는 타악기",
+    "answer_en": "The crystal notes I played at school and at home; echoes of a music that lived within my childhood",
+    "answer_ko": "학교와 집에서 연주하던 실로폰의 맑은 소리. 그 선율은 내 어린 시절을 채웠던 다정한 배경음악이었습니다.",
+    "image": "image/X.PNG"
+  },
+  "Y": {
+    "letter": "Y",
+    "word": "Yoyó",
+    "type": "n",
+    "en": "yoyo",
+    "explain_en": "A rotating toy that moves up and down by means of a string.",
+    "word_type_ko": "명사",
+    "ko": "Yoyó",
+    "explain_ko": "실을 이용해 오르내리며 회전하는 장난감",
+    "answer_en": "A game of strings and rotations; a simple joy that once captivated everyone in my youth.",
+    "answer_ko": "실 하나에 매달려 오르내리던 요요. 어린 시절 우리 모두를 매료시켰던 그 소박한 장난감.",
+    "image": "image/Y.PNG"
+  },
+  "Z": {
+    "letter": "Z",
+    "word": "Zoológico",
+    "type": "n",
+    "en": "zoo",
+    "explain_en": "An enclosure for the exhibition and care of animals; a place of final goodbyes.",
+    "word_type_ko": "명사",
+    "ko": "동물원",
+    "explain_ko": "동물을 전시하고 돌보는 시설. 이별의 장소이기도 하다.",
+    "answer_en": "My first visit was with my grandmother in XXX; a magical afternoon that became, unknowingly, our final goodbye",
+    "answer_ko": "할머니와 함께했던 XXX의 동물원. 그날의 즐거웠던 기억은 할머니와 나눈 마지막 인사가 되었습니다",
+    "image": "image/Z.PNG"
+  }
+};
+
     const spanishAlphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','\u00d1','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
     const nav = document.getElementById('alphabet-nav');
 
@@ -319,10 +1318,12 @@
       nav.appendChild(btn);
     });
 
+    // sentence-split helper for answer_en
     function renderAnswerEn(text) {
       const el = document.getElementById('entry-answer-en');
       el.innerHTML = '';
       if (!text) return;
+      // split on ". " keeping the period
       const parts = text.split(/(?<=\.) /);
       parts.forEach(sentence => {
         if (!sentence.trim()) return;
@@ -352,6 +1353,11 @@
         document.getElementById('entry-ko-body').textContent = d.explain_ko||'';
         document.getElementById('entry-en-head').textContent = `${d.en||''} (${d.type||''})`;
         document.getElementById('entry-en-body').textContent = d.explain_en||'';
+      } else {
+        document.getElementById('entry-ko-head').textContent = '(내용 준비 중)';
+        document.getElementById('entry-ko-body').textContent = '';
+        document.getElementById('entry-en-head').textContent = '(Content coming soon)';
+        document.getElementById('entry-en-body').textContent = '';
       }
 
       const img = document.getElementById('entry-img');
@@ -369,9 +1375,7 @@
       section.scrollIntoView({behavior:'smooth', block:'start'});
     }
 
-    // ===== TAB LOGIC =====
     const backTop = document.getElementById('back-top');
-    let interviewLoaded = false;
 
     function switchTab(tab) {
       const body      = document.body;
@@ -389,68 +1393,15 @@
         body.classList.add('dark');
         backTop.className = 'back-top dark-mode';
         if (tab === 'dict') {
+          // auto-show A on first open
           if (!currentLetter) showEntry('A');
-        } else if (tab === 'itv' && !interviewLoaded) {
-          loadInterviewData(); // Gọi hàm tải JSON khi bấm qua tab Interview
         }
       }
     }
 
-    // ===== INTERVIEW JSON FETCH LOGIC =====
-    async function loadInterviewData() {
-      try {
-        const response = await fetch('Interview.json');
-        const data = await response.json();
-        renderInterview(data);
-        interviewLoaded = true;
-      } catch (error) {
-        console.error('Error loading Interview.json:', error);
-        document.getElementById('panel-itv').innerHTML = '<p style="text-align:center; color:#fff; padding-top:4rem;">인터뷰 데이터를 불러올 수 없습니다. (Failed to load Interview Data)</p>';
-      }
-    }
-
-    function renderInterview(data) {
-      const container = document.getElementById('panel-itv');
-      container.innerHTML = ''; // Xóa nội dung cũ
-      
-      data.categories.forEach(category => {
-        // 1. Tạo Header chuyên mục
-        const headerDiv = document.createElement('div');
-        headerDiv.className = 'itv-category-header';
-        headerDiv.innerHTML = `
-          <div class="itv-cat-num">${category.num}</div>
-          <h2 class="itv-cat-ko">${category.title_ko}</h2>
-          <p class="itv-cat-en">${category.title_en}</p>
-        `;
-        container.appendChild(headerDiv);
-
-        // 2. Tạo các nội dung (Hình ảnh / Hỏi đáp)
-        category.items.forEach(item => {
-          if (item.type === 'image') {
-            const img = document.createElement('img');
-            img.src = item.src;
-            img.alt = 'Illustration';
-            img.className = 'itv-img';
-            img.loading = 'lazy';
-            container.appendChild(img);
-          } else if (item.type === 'qa') {
-            const qaDiv = document.createElement('div');
-            qaDiv.className = `itv-group align-${item.align}`; // Căn trái hoặc phải
-            qaDiv.innerHTML = `
-              <div class="itv-q-ko">${item.q_ko}</div>
-              <div class="itv-q-en">${item.q_en}</div>
-              <div class="itv-a-wrap">
-                <div class="itv-a-ko">${item.a_ko}</div>
-                <div class="itv-a-en">${item.a_en}</div>
-              </div>
-            `;
-            container.appendChild(qaDiv);
-          }
-        });
-      });
-    }
-
+    // patch sub345 class on sub_title3/4/5 wrappers (guaranteed CSS hook)
     document.querySelectorAll('.intro-subtitle-wrap').forEach((el, i) => {
+      // index 0 = main sub_title, 1=sub_title2, 2=sub_title3, 3=sub_title4, 4=sub_title5
       if (i >= 2) el.classList.add('sub345');
     });
   </script>
