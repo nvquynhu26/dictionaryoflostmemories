@@ -1,289 +1,458 @@
-import json
-
-# Load raw interview records
-with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/itv_raw.json", "r", encoding="utf-8") as f:
-    itv_data = json.load(f)
-
-# Group the interview data by number
-groups = {}
-for row in itv_data:
-    g_num = row.get("Unnamed: 1")
-    if g_num is not None:
-        try:
-            num = int(float(g_num))
-            groups[num] = {
-                "q_ko": row.get("KO") or "",
-                "q_en": row.get("EN") or "",
-                "a_ko": row.get("Unnamed: 3") or "",
-                "a_en": row.get("Unnamed: 5") or ""
-            }
-        except ValueError:
-            pass
-
-# Category data config
-categories = [
-    {
-        "id": "memories_of_senses",
-        "num": "1",
-        "ko": "감각의 기억",
-        "en": "Memories of senses",
-        "elements": [
-            {"type": "img", "id": 6},
-            {"type": "group", "id": 1},
-            {"type": "img", "id": 8},
-            {"type": "group", "id": 3},
-            {"type": "img", "id": 13},
-            {"type": "group", "id": 4},
-            {"type": "img", "id": 7},
-            {"type": "group", "id": 2},
-            {"type": "img", "id": 14},
-            {"type": "group", "id": 5}
-        ]
-    },
-    {
-        "id": "strange_encounters",
-        "num": "2",
-        "ko": "낯선 만남",
-        "en": "Strange encounters",
-        "elements": [
-            {"type": "group", "id": 6},
-            {"type": "img", "id": 15},
-            {"type": "group", "id": 10},
-            {"type": "group", "id": 11},
-            {"type": "img", "id": 9},
-            {"type": "group", "id": 7},
-            {"type": "img", "id": 2},
-            {"type": "group", "id": 8},
-            {"type": "group", "id": 9}
-        ]
-    },
-    {
-        "id": "longing_and_identity",
-        "num": "3",
-        "ko": "그리움과 정체성",
-        "en": "Longing and identity",
-        "elements": [
-            {"type": "group", "id": 12},
-            {"type": "group", "id": 13},
-            {"type": "img", "id": 12},
-            {"type": "group", "id": 14},
-            {"type": "group", "id": 15},
-            {"type": "img", "id": 4},
-            {"type": "group", "id": 16}
-        ]
-    },
-    {
-        "id": "untold_stories",
-        "num": "4",
-        "ko": "말하지 못한 이야기",
-        "en": "Untold stories",
-        "elements": [
-            {"type": "group", "id": 20},
-            {"type": "img", "id": 17},
-            {"type": "group", "id": 17},
-            {"type": "group", "id": 18},
-            {"type": "img", "id": 16},
-            {"type": "group", "id": 19}
-        ]
-    },
-    {
-        "id": "between_two_worlds",
-        "num": "5",
-        "ko": "두 세계 사이에서",
-        "en": "Between two worlds",
-        "elements": [
-            {"type": "group", "id": 22},
-            {"type": "group", "id": 25},
-            {"type": "img", "id": 5},
-            {"type": "group", "id": 21},
-            {"type": "group", "id": 23},
-            {"type": "img", "id": 10},
-            {"type": "group", "id": 24},
-            {"type": "group", "id": 26},
-            {"type": "group", "id": 27},
-            {"type": "img", "id": 20},
-            {"type": "group", "id": 29},
-            {"type": "img", "id": 18},
-            {"type": "group", "id": 28},
-            {"type": "group", "id": 30}
-        ]
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <title>추억의 사전 — Dictionary of the Lost Memories</title>
+  <meta name="description" content="추억의 사전 (Dictionary of the Lost Memories)"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Serif:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    @font-face {
+      font-family:'NanumNeuRisNeuRisCe';
+      src:url('font/NanumNeuRisNeuRisCe.ttf') format('truetype');
+      font-weight:normal; font-style:normal;
     }
-]
+    :root {
+      --ts:.5s;
+      --max-w:860px;
+      --px:clamp(1rem,4vw,2.5rem);
+      --font-ko:'Pretendard','Noto Serif KR',serif;
+      --font-en:'Noto Serif',serif;
+      --font-hand:'NanumNeuRisNeuRisCe','Caveat',cursive;
+      --gray-en:#555;
+      --gray-en-dark:#999;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+    body{
+      font-family:var(--font-en);
+      background:#fff;color:#111;
+      min-height:100vh;
+      transition:background var(--ts),color var(--ts);
+      -webkit-font-smoothing:antialiased;
+    }
+    body.dark{background:#0e0e0e;color:#f0f0f0;}
 
-def clean_text(t):
-    if not t:
-        return ""
-    return t.strip().replace("<", "&lt;").replace(">", "&gt;")
+    /* HEADER */
+    header{text-align:center;padding:clamp(2rem,6vw,4rem) var(--px) clamp(1rem,2.5vw,2rem);}
+    .title-korean{font-family:var(--font-ko);font-size:clamp(2rem,6vw,4.5rem);font-weight:600;line-height:1.15;letter-spacing:.04em;}
+    .title-english{font-family:var(--font-en);font-size:clamp(.65rem,1.6vw,.9rem);font-weight:300;font-style:italic;letter-spacing:.18em;margin-top:.5rem;opacity:.7;text-transform:uppercase;}
 
-# Build Interview Panel HTML
-itv_html = []
-for cat in categories:
-    itv_html.append(f'    <!-- Category {cat["num"]}: {cat["id"]} -->')
-    itv_html.append(f'    <div class="itv-category-header">')
-    itv_html.append(f'      <div class="itv-cat-num">{cat["num"]}</div>')
-    itv_html.append(f'      <h2 class="itv-cat-ko">{cat["ko"]}</h2>')
-    itv_html.append(f'      <p class="itv-cat-en">{cat["en"]}</p>')
-    itv_html.append(f'    </div>')
+    /* 3-WAY TOGGLE */
+    .toggle-wrapper{display:flex;justify-content:center;margin:1.5rem 0 2rem;}
+    .toggle-container{
+      position:relative;display:flex;
+      border:2px solid #111;
+      border-radius:999px;
+      overflow:hidden;
+      width:clamp(300px,55vw,420px);
+      height:44px;
+      transition:border-color var(--ts);
+    }
+    body.dark .toggle-container{border-color:#f0f0f0;}
+    .toggle-slider{
+      position:absolute;top:0;left:0;
+      width:33.333%;height:100%;
+      background:#111;border-radius:999px;
+      transition:transform var(--ts) cubic-bezier(.4,0,.2,1),background var(--ts);
+      z-index:0;
+    }
+    body.dark .toggle-slider{background:#f0f0f0;}
+    .toggle-container[data-tab="intro"]  .toggle-slider{transform:translateX(0%);}
+    .toggle-container[data-tab="dict"]   .toggle-slider{transform:translateX(100%);}
+    .toggle-container[data-tab="itv"]    .toggle-slider{transform:translateX(200%);}
+    .toggle-btn{
+      position:relative;z-index:1;flex:1;
+      background:transparent;border:none;cursor:pointer;
+      font-family:var(--font-en);font-weight:700;
+      font-size:clamp(.6rem,1.4vw,.75rem);
+      letter-spacing:.08em;text-transform:uppercase;
+      color:#111;transition:color var(--ts);border-radius:999px;
+    }
+    body.dark .toggle-btn{color:#f0f0f0;}
+    .toggle-container[data-tab="intro"]  #btn-intro,
+    .toggle-container[data-tab="dict"]   #btn-dict,
+    .toggle-container[data-tab="itv"]    #btn-itv{color:#fff;}
+    body.dark .toggle-container[data-tab="intro"]  #btn-intro,
+    body.dark .toggle-container[data-tab="dict"]   #btn-dict,
+    body.dark .toggle-container[data-tab="itv"]    #btn-itv{color:#0e0e0e;}
+
+    /* PANELS */
+    #panel-intro,#panel-dict,#panel-itv{display:none;animation:fadeIn .4s ease;}
+    #panel-intro.active,#panel-dict.active,#panel-itv.active{display:block;}
+    #panel-dict,#panel-itv{max-width:var(--max-w);margin:0 auto;padding:0 var(--px) 6rem;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    /* INTRODUCTION */
+    .intro-wrap{max-width:var(--max-w);margin:0 auto;padding:0 var(--px) 6rem;text-align:center;}
+    .intro-main-title-wrap{margin-bottom:clamp(50px,8vw,100px);}
+    .intro-main-ko{font-family:var(--font-ko);font-size:clamp(2.2rem,8vw,7rem);font-weight:700;line-height:1.15;}
+    .intro-main-en{font-family:var(--font-en);font-size:clamp(.75rem,2.3vw,2.1rem);font-weight:400;margin-top:20px;color:var(--gray-en);}
+    body.dark .intro-main-en{color:var(--gray-en-dark);}
+    .intro-pic-wrap{margin:clamp(40px,6vw,100px) auto clamp(30px,5vw,80px);text-align:center;}
+    .intro-pic{width:40%;max-width:40%;height:auto;display:inline-block;}
+
+    /* SUB-TITLES */
+    .intro-subtitle-wrap{margin-bottom:clamp(20px,3vw,40px);padding-top:clamp(30px,5vw,70px);}
+    .intro-subtitle-ko{font-family:var(--font-ko);font-size:clamp(1.4rem,4.5vw,4rem);font-weight:700;line-height:1.2;}
+    .intro-subtitle-en{font-family:var(--font-en);font-size:clamp(.7rem,2vw,1.9rem);font-weight:400;margin-top:12px;color:var(--gray-en);}
+    body.dark .intro-subtitle-en{color:var(--gray-en-dark);}
+    .intro-subtitle-wrap.sub345 .intro-subtitle-ko{font-size:clamp(.95rem,2.8vw,2.4rem);}
+    .intro-subtitle-wrap.sub345 .intro-subtitle-en{font-size:clamp(.65rem,1.4vw,1.15rem);}
+    .intro-subtitle-wrap.align-left, .info-group.align-left{text-align:left;}
+    .intro-subtitle-wrap.align-right, .info-group.align-right{text-align:right;}
+
+    /* INFO ITEMS */
+    .info-group{display:flex;flex-direction:column;gap:clamp(20px,3.5vw,50px);margin-bottom:clamp(30px,5vw,70px);}
+    .info-ko{font-family:var(--font-ko);font-size:clamp(.88rem,2vw,1.05rem);font-weight:400;line-height:1.9;white-space:pre-wrap;}
+    .info-en{font-family:var(--font-en);font-size:clamp(.73rem,1.6vw,.88rem);font-weight:300;font-style:italic;line-height:1.75;color:var(--gray-en);margin-top:6px;white-space:pre-wrap;}
+    body.dark .info-en{color:var(--gray-en-dark);}
+    .final-block{margin-top:clamp(30px,5vw,70px);}
+
+    /* ALPHABET */
+    .alphabet-sticky-wrap{position:sticky;top:0;z-index:100;background:#0e0e0e;padding:8px var(--px);box-shadow:0 4px 16px rgba(0,0,0,.5);}
+    .alphabet-row{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(3px,.8vw,6px);}
+    .alpha-btn{
+      background:transparent;border:1.5px solid #f0f0f0;color:#f0f0f0;
+      font-family:var(--font-en);font-size:clamp(.68rem,1.7vw,.82rem);letter-spacing:.06em;
+      width:clamp(26px,4.5vw,34px);height:clamp(26px,4.5vw,34px);
+      cursor:pointer;transition:background .2s,color .2s;border-radius:6px;
+    }
+    .alpha-btn:hover,.alpha-btn.active{background:#f0f0f0;color:#0e0e0e;}
+
+    /* DICTIONARY ENTRY */
+    #entry-section{display:none;text-align:center;animation:fadeIn .4s ease;padding-top:2.5rem;}
+    #entry-section.visible{display:block;}
+    .entry-letter{font-family:var(--font-en);font-size:clamp(5rem,18vw,12rem);font-weight:300;color:#fff;line-height:1;margin-bottom:70px;letter-spacing:-.02em;}
+    .entry-word{font-family:var(--font-en);font-size:clamp(1.2rem,3.5vw,1.9rem);font-weight:400;font-style:italic;color:#fff;letter-spacing:.06em;margin-bottom:40px;}
+    .entry-ko-head{font-family:var(--font-ko);font-size:clamp(.9rem,2.4vw,1.2rem);font-weight:600;color:#f0f0f0;margin-bottom:6px;}
+    .entry-ko-body{font-family:var(--font-ko);font-size:clamp(.84rem,2.1vw,1.06rem);font-weight:400;line-height:1.85;color:#d8d8d8;max-width:680px;margin:0 auto 15px;}
+    .entry-en-head{font-family:var(--font-en);font-size:clamp(.78rem,2vw,1rem);font-weight:400;font-style:italic;color:#b0b0b0;margin-bottom:4px;}
+    .entry-en-body{font-family:var(--font-en);font-size:clamp(.72rem,1.8vw,.92rem);font-weight:300;font-style:italic;line-height:1.8;color:#888;max-width:680px;margin:0 auto 2.5rem;}
+    .entry-answer-ko{font-family:var(--font-hand);font-size:clamp(1.4rem,3.4vw,1.85rem);font-weight:400;line-height:2;color:#d8d8d8;max-width:680px;margin:2rem auto .5rem;}
+    .entry-answer-en{font-family:var(--font-hand);font-size:clamp(1.1rem,2.6vw,1.55rem);font-weight:400;line-height:1;color:#888;max-width:680px;margin:0 auto 4rem;}
+    .entry-answer-en .sentence{display:block;margin-bottom:.45em;}
+    .illustration-wrapper{margin:0 auto 1rem;max-width:100%;}
+    .illustration-img{width:100%;max-width:720px;display:block;margin:0 auto;border-radius:3px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+
+    /* INTERVIEW PANEL */
+    .itv-category-header {
+      text-align: center;
+      margin-top: clamp(4rem, 10vw, 8rem);
+      margin-bottom: clamp(3rem, 7vw, 5rem);
+    }
+    .itv-cat-num {
+      font-family: var(--font-en);
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+    .itv-cat-ko {
+      font-family: var(--font-ko);
+      font-size: clamp(1.8rem, 4.5vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .itv-cat-en {
+      font-family: var(--font-en);
+      font-size: clamp(0.95rem, 2.2vw, 1.3rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gray-en-dark);
+    }
+
+    .itv-group {
+      margin-bottom: clamp(3rem, 8vw, 6rem);
+      width: 100%;
+    }
+    .itv-group.align-left { text-align: left; }
+    .itv-group.align-right { text-align: right; }
+
+    /* Interview Typography Updates */
+    .itv-q-ko {
+      font-family: var(--font-ko);
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem); /* Q_KO size */
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
     
-    group_idx = 0
-    for el in cat["elements"]:
-        if el["type"] == "img":
-            itv_html.append(f'    <img src="image/{el["id"]}.png" alt="Illustration {el["id"]}" class="itv-img" loading="lazy"/>')
-        elif el["type"] == "group":
-            g_id = el["id"]
-            g_data = groups.get(g_id)
-            if not g_data:
-                print(f"WARNING: Group {g_id} not found!")
-                continue
-            align = "align-left" if group_idx % 2 == 0 else "align-right"
-            group_idx += 1
-            
-            itv_html.append(f'    <div class="itv-group {align}">')
-            itv_html.append(f'      <div class="itv-q-ko">{clean_text(g_data["q_ko"])}</div>')
-            itv_html.append(f'      <div class="itv-q-en">{clean_text(g_data["q_en"])}</div>')
-            itv_html.append(f'      <div class="itv-a-wrap">')
-            itv_html.append(f'        <div class="itv-a-ko">{clean_text(g_data["a_ko"])}</div>')
-            itv_html.append(f'        <div class="itv-a-en">{clean_text(g_data["a_en"])}</div>')
-            itv_html.append(f'      </div>')
-            itv_html.append(f'    </div>')
+    .itv-a-ko {
+      font-family: var(--font-ko); /* Đổi sang Pretendard */
+      font-size: clamp(0.75rem, 1.8vw, 0.95rem); /* Nhỏ hơn Q_KO 2 size */
+      font-weight: 400; /* Normal */
+      color: #d8d8d8;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
 
-with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/itv_panel.html", "w", encoding="utf-8") as f:
-    f.write("\n".join(itv_html))
+    .itv-q-en, .itv-a-en {
+      font-family: var(--font-en);
+      font-size: clamp(0.75rem, 1.6vw, 0.9rem); /* Q_EN và A_EN bằng size nhau */
+      font-weight: 400;
+      font-style: italic;
+      color: #888;
+      line-height: 1.5;
+      margin-top: 4px;
+      white-space: pre-wrap;
+    }
 
-# Load introduction text
-with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/intro_raw.json", "r", encoding="utf-8") as f:
-    intro_raw = json.load(f)
+    .itv-a-wrap {
+      margin-top: clamp(15px, 3.5vw, 20px);
+    }
 
-intro_dict = {}
-for row in intro_raw:
-    key = row.get("Unnamed: 0")
-    if key is not None:
-        intro_dict[str(key)] = {
-            "ko": row.get("Unnamed: 1") or "",
-            "en": row.get("Unnamed: 2") or ""
+    /* Interview Image - Tăng kích thước 50% (Từ 40% lên 60%) */
+    .itv-img {
+      display: block;
+      margin: clamp(2.5rem, 6vw, 4.5rem) auto;
+      max-width: 60%; 
+      height: auto;
+    }
+
+    /* FOOTER */
+    footer{text-align:center;padding:clamp(1.2rem,3vw,2rem) var(--px);font-family:var(--font-en);font-size:clamp(.55rem,1.2vw,.68rem);color:#aaa;letter-spacing:.1em;border-top:1px solid rgba(128,128,128,.15);margin-top:2rem;}
+    body.dark footer{color:#555;}
+
+    /* BACK-TO-TOP */
+    .back-top{
+      position:fixed;bottom:clamp(14px,2.5vw,24px);left:50%;transform:translateX(-50%);
+      z-index:999;width:clamp(38px,7vw,50px);height:clamp(38px,7vw,50px);
+      border-radius:50%;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      font-size:clamp(.9rem,2.2vw,1.2rem);
+      box-shadow:0 2px 12px rgba(0,0,0,.18);
+      transition:background .3s,color .3s,opacity .3s;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .back-top.light-mode{background:rgba(180,180,180,.7);color:#333;opacity:1;}
+    .back-top.dark-mode {background:rgba(255,255,255,.15);color:#fff;opacity:.5;}
+    .back-top:hover{opacity:1!important;}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 class="title-korean">추억의 사전</h1>
+    <p class="title-english">Dictionary of the Lost Memories</p>
+  </header>
+
+  <div class="toggle-wrapper">
+    <div class="toggle-container" id="toggle-container" data-tab="intro">
+      <div class="toggle-slider"></div>
+      <button class="toggle-btn" id="btn-intro" onclick="switchTab('intro')">Introduction</button>
+      <button class="toggle-btn" id="btn-dict"  onclick="switchTab('dict')">Dictionary</button>
+      <button class="toggle-btn" id="btn-itv"   onclick="switchTab('itv')">Interview</button>
+    </div>
+  </div>
+
+  <section id="panel-intro" class="active">
+    <div class="intro-wrap">
+      <div class="intro-main-title-wrap">
+        <h1 class="intro-main-ko">추억의 이름들을 소환하다.</h1>
+        <p class="intro-main-en">Calling the Names of Memories</p>
+      </div>
+      <div class="intro-pic-wrap"><img src="image/19.png" alt="" class="intro-pic" loading="lazy" /></div>
+      <div class="intro-subtitle-wrap">
+        <h2 class="intro-subtitle-ko" style="white-space:nowrap;">두 번째 성장통을 겪는 아이들</h2>
+        <p class="intro-subtitle-en">Children Growing Up for the Second Time</p>
+      </div>
+      <div class="info-group">
+        <div class="info-item">
+          <p class="info-ko">낯선 타지인 한국으로 향할 때, 우리가 든 것은 무거운 가방뿐만이 아니었습니다. 
+그 안에는 빛나는 삶에 대한 간절한 꿈도 함께 실려 있었습니다. 하지만 현실은 혹독한 '재탄생'이었습니다.
+가족도 친구도 없는 이곳에서, 우리는 다시 한번 홀로 서는 법을 배워야만 했습니다.</p>
+          <p class="info-en">When we left our homeland for South Korea, we carried more than just heavy suitcases; we carried dreams of a brilliant life. Yet, reality proved to be a harsh "rebirth"—a place where we were forced to grow up once more, without the embrace of family or friends.</p>
+        </div>
+      </div>
+      <div class="intro-pic-wrap"><img src="image/1.png" alt="" class="intro-pic" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section id="panel-dict">
+    <div class="alphabet-sticky-wrap">
+      <nav class="alphabet-row" id="alphabet-nav" aria-label="Spanish alphabet navigation"></nav>
+    </div>
+    <div id="entry-section">
+      <p class="entry-letter"   id="entry-letter"></p>
+      <p class="entry-word"     id="entry-word"></p>
+      <p class="entry-ko-head"  id="entry-ko-head"></p>
+      <p class="entry-ko-body"  id="entry-ko-body"></p>
+      <p class="entry-en-head"  id="entry-en-head"></p>
+      <p class="entry-en-body"  id="entry-en-body"></p>
+      <div class="illustration-wrapper">
+        <img class="illustration-img" id="entry-img" src="" alt="" loading="lazy"/>
+      </div>
+      <p class="entry-answer-ko" id="entry-answer-ko"></p>
+      <div class="entry-answer-en" id="entry-answer-en"></div>
+    </div>
+  </section>
+
+  <section id="panel-itv"></section>
+
+  <footer>Copyright &copy; YOUME. All rights reserved.</footer>
+
+  <button class="back-top light-mode" id="back-top" aria-label="Back to top"
+          onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+  <script>
+    // ===== DICTIONARY LOGIC =====
+    // (Lược bớt biến dictionaryData dài để tiết kiệm không gian, bạn dán nguyên cục dictionaryData gốc của bạn vào đây)
+    const dictionaryData = {}; 
+    const spanishAlphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','\u00d1','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    const nav = document.getElementById('alphabet-nav');
+
+    spanishAlphabet.forEach(letter => {
+      const btn = document.createElement('button');
+      btn.className = 'alpha-btn';
+      btn.id = 'alpha-' + letter;
+      btn.textContent = letter;
+      btn.setAttribute('aria-label', 'Letter ' + letter);
+      btn.addEventListener('click', () => showEntry(letter));
+      nav.appendChild(btn);
+    });
+
+    function renderAnswerEn(text) {
+      const el = document.getElementById('entry-answer-en');
+      el.innerHTML = '';
+      if (!text) return;
+      const parts = text.split(/(?<=\.) /);
+      parts.forEach(sentence => {
+        if (!sentence.trim()) return;
+        const span = document.createElement('span');
+        span.className = 'sentence';
+        span.textContent = sentence.trim();
+        el.appendChild(span);
+      });
+    }
+
+    let currentLetter = null;
+    function showEntry(letter) {
+      if (currentLetter) {
+        const prev = document.getElementById('alpha-' + currentLetter);
+        if (prev) prev.classList.remove('active');
+      }
+      currentLetter = letter;
+      const cur = document.getElementById('alpha-' + letter);
+      if (cur) cur.classList.add('active');
+
+      const d = dictionaryData[letter];
+      document.getElementById('entry-letter').textContent = letter;
+      document.getElementById('entry-word').textContent   = d ? d.word : '';
+
+      if (d) {
+        document.getElementById('entry-ko-head').textContent = `${d.ko||''} (${d.word_type_ko||''})`;
+        document.getElementById('entry-ko-body').textContent = d.explain_ko||'';
+        document.getElementById('entry-en-head').textContent = `${d.en||''} (${d.type||''})`;
+        document.getElementById('entry-en-body').textContent = d.explain_en||'';
+      }
+
+      const img = document.getElementById('entry-img');
+      if (d && d.image) {
+        img.src = d.image; img.alt = 'Illustration for ' + letter; img.style.display = 'block';
+      } else { img.style.display = 'none'; }
+
+      document.getElementById('entry-answer-ko').textContent = (d && d.answer_ko) ? d.answer_ko : '';
+      renderAnswerEn((d && d.answer_en) ? d.answer_en : '');
+
+      const section = document.getElementById('entry-section');
+      section.classList.remove('visible');
+      void section.offsetWidth;
+      section.classList.add('visible');
+      section.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // ===== TAB LOGIC =====
+    const backTop = document.getElementById('back-top');
+    let interviewLoaded = false;
+
+    function switchTab(tab) {
+      const body      = document.body;
+      const container = document.getElementById('toggle-container');
+      ['intro','dict','itv'].forEach(t => {
+        document.getElementById('panel-'+t).classList.remove('active');
+      });
+      document.getElementById('panel-'+tab).classList.add('active');
+      container.setAttribute('data-tab', tab);
+
+      if (tab === 'intro') {
+        body.classList.remove('dark');
+        backTop.className = 'back-top light-mode';
+      } else {
+        body.classList.add('dark');
+        backTop.className = 'back-top dark-mode';
+        if (tab === 'dict') {
+          if (!currentLetter) showEntry('A');
+        } else if (tab === 'itv' && !interviewLoaded) {
+          loadInterviewData(); // Gọi hàm tải JSON khi bấm qua tab Interview
         }
+      }
+    }
 
-intro_html = []
-intro_html.append('<div class="intro-wrap">')
-# Main title
-main_title = intro_dict.get("main_title")
-intro_html.append('    <div class="intro-main-title-wrap">')
-intro_html.append(f'      <h1 class="intro-main-ko">{clean_text(main_title["ko"])}</h1>')
-intro_html.append(f'      <p class="intro-main-en">{clean_text(main_title["en"])}</p>')
-intro_html.append('    </div>')
+    // ===== INTERVIEW JSON FETCH LOGIC =====
+    async function loadInterviewData() {
+      try {
+        const response = await fetch('Interview.json');
+        const data = await response.json();
+        renderInterview(data);
+        interviewLoaded = true;
+      } catch (error) {
+        console.error('Error loading Interview.json:', error);
+        document.getElementById('panel-itv').innerHTML = '<p style="text-align:center; color:#fff; padding-top:4rem;">인터뷰 데이터를 불러올 수 없습니다. (Failed to load Interview Data)</p>';
+      }
+    }
 
-intro_html.append('    <div class="intro-pic-wrap"><img src="image/19.png" alt="" class="intro-pic" loading="lazy" /></div>')
+    function renderInterview(data) {
+      const container = document.getElementById('panel-itv');
+      container.innerHTML = ''; // Xóa nội dung cũ
+      
+      data.categories.forEach(category => {
+        // 1. Tạo Header chuyên mục
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'itv-category-header';
+        headerDiv.innerHTML = `
+          <div class="itv-cat-num">${category.num}</div>
+          <h2 class="itv-cat-ko">${category.title_ko}</h2>
+          <p class="itv-cat-en">${category.title_en}</p>
+        `;
+        container.appendChild(headerDiv);
 
-sub_title = intro_dict.get("sub_title")
-intro_html.append('    <div class="intro-subtitle-wrap">')
-intro_html.append(f'      <h2 class="intro-subtitle-ko" style="white-space:nowrap;">{clean_text(sub_title["ko"])}</h2>')
-intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title["en"])}</p>')
-intro_html.append('    </div>')
+        // 2. Tạo các nội dung (Hình ảnh / Hỏi đáp)
+        category.items.forEach(item => {
+          if (item.type === 'image') {
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = 'Illustration';
+            img.className = 'itv-img';
+            img.loading = 'lazy';
+            container.appendChild(img);
+          } else if (item.type === 'qa') {
+            const qaDiv = document.createElement('div');
+            qaDiv.className = `itv-group align-${item.align}`; // Căn trái hoặc phải
+            qaDiv.innerHTML = `
+              <div class="itv-q-ko">${item.q_ko}</div>
+              <div class="itv-q-en">${item.q_en}</div>
+              <div class="itv-a-wrap">
+                <div class="itv-a-ko">${item.a_ko}</div>
+                <div class="itv-a-en">${item.a_en}</div>
+              </div>
+            `;
+            container.appendChild(qaDiv);
+          }
+        });
+      });
+    }
 
-intro_html.append('    <div class="info-group">')
-for i in ["1", "2", "3", "4"]:
-    item = intro_dict.get(i)
-    intro_html.append('      <div class="info-item">')
-    intro_html.append(f'        <p class="info-ko">{clean_text(item["ko"])}</p>')
-    intro_html.append(f'        <p class="info-en">{clean_text(item["en"])}</p>')
-    intro_html.append('      </div>')
-intro_html.append('    </div>')
-
-intro_html.append('    <div class="intro-pic-wrap"><img src="image/1.png" alt="" class="intro-pic" loading="lazy" /></div>')
-
-sub_title2 = intro_dict.get("sub_title2")
-intro_html.append('    <div class="intro-subtitle-wrap">')
-intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title2["ko"])}</h2>')
-intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title2["en"])}</p>')
-intro_html.append('    </div>')
-
-intro_html.append('    <div class="info-group">')
-work_exp = intro_dict.get("Work Explanation")
-intro_html.append('      <div class="info-item">')
-intro_html.append(f'        <p class="info-ko">{clean_text(work_exp["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(work_exp["en"])}</p>')
-intro_html.append('      </div>')
-
-item5 = intro_dict.get("5")
-intro_html.append('      <div class="info-item" style="text-align:left">')
-intro_html.append(f'        <p class="info-ko">{clean_text(item5["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(item5["en"])}</p>')
-intro_html.append('      </div>')
-
-item6 = intro_dict.get("6")
-intro_html.append('      <div class="info-item" style="text-align:right">')
-intro_html.append(f'        <p class="info-ko">{clean_text(item6["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(item6["en"])}</p>')
-intro_html.append('      </div>')
-
-item7 = intro_dict.get("7")
-intro_html.append('      <div class="info-item">')
-intro_html.append(f'        <p class="info-ko">{clean_text(item7["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(item7["en"])}</p>')
-intro_html.append('      </div>')
-intro_html.append('    </div>')
-
-intro_html.append('    <div class="intro-pic-wrap"><img src="image/P3.png" alt="" class="intro-pic" loading="lazy" /></div>')
-
-sub_title3 = intro_dict.get("sub_title3")
-intro_html.append('    <div class="intro-subtitle-wrap align-left">')
-intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title3["ko"])}</h2>')
-intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title3["en"])}</p>')
-intro_html.append('    </div>')
-
-item8 = intro_dict.get("8")
-intro_html.append('    <div class="info-group align-left">')
-intro_html.append('      <div class="info-item">')
-intro_html.append(f'        <p class="info-ko">{clean_text(item8["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(item8["en"])}</p>')
-intro_html.append('      </div>')
-intro_html.append('    </div>')
-
-intro_html.append('    <div class="intro-pic-wrap"><img src="image/P4.png" alt="" class="intro-pic" loading="lazy" /></div>')
-
-sub_title4 = intro_dict.get("sub_title4")
-intro_html.append('    <div class="intro-subtitle-wrap align-right">')
-intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title4["ko"])}</h2>')
-intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title4["en"])}</p>')
-intro_html.append('    </div>')
-
-item9 = intro_dict.get("9")
-intro_html.append('    <div class="info-group align-right">')
-intro_html.append('      <div class="info-item">')
-intro_html.append(f'        <p class="info-ko">{clean_text(item9["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(item9["en"])}</p>')
-intro_html.append('      </div>')
-intro_html.append('    </div>')
-
-intro_html.append('    <div class="intro-pic-wrap"><img src="image/P5.png" alt="" class="intro-pic" loading="lazy" /></div>')
-
-sub_title5 = intro_dict.get("sub_title5")
-intro_html.append('    <div class="intro-subtitle-wrap align-left">')
-intro_html.append(f'      <h2 class="intro-subtitle-ko">{clean_text(sub_title5["ko"])}</h2>')
-intro_html.append(f'      <p class="intro-subtitle-en">{clean_text(sub_title5["en"])}</p>')
-intro_html.append('    </div>')
-
-item10 = intro_dict.get("10")
-intro_html.append('    <div class="info-group align-left">')
-intro_html.append('      <div class="info-item">')
-intro_html.append(f'        <p class="info-ko">{clean_text(item10["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(item10["en"])}</p>')
-intro_html.append('      </div>')
-intro_html.append('    </div>')
-
-intro_html.append('    <div class="intro-pic-wrap"><img src="image/P6.png" alt="" class="intro-pic" loading="lazy" /></div>')
-
-final = intro_dict.get("final")
-intro_html.append('    <div class="info-group final-block">')
-intro_html.append('      <div class="info-item">')
-intro_html.append(f'        <p class="info-ko">{clean_text(final["ko"])}</p>')
-intro_html.append(f'        <p class="info-en">{clean_text(final["en"])}</p>')
-intro_html.append('      </div>')
-intro_html.append('    </div>')
-
-intro_html.append('</div>')
-
-with open("/Users/nv.quynhu26/.gemini/antigravity-ide/scratch/intro_panel.html", "w", encoding="utf-8") as f:
-    f.write("\n".join(intro_html))
-
-print("Successfully updated HTML blocks.")
+    document.querySelectorAll('.intro-subtitle-wrap').forEach((el, i) => {
+      if (i >= 2) el.classList.add('sub345');
+    });
+  </script>
+</body>
+</html>
