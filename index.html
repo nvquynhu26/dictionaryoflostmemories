@@ -7,20 +7,19 @@
   <meta name="description" content="추억의 사전 (Dictionary of the Lost Memories)"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Serif:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Serif:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
   <style>
-    /* Gọi thẳng file font nằm cùng cấp với thư mục index.html */
+    /* Gọi file Font chung thư mục với index.html */
+    @font-face {
+      font-family: 'NanumNeuRisNeuRisCe';
+      src: url('NanumNeuRisNeuRisCe.ttf') format('truetype');
+      font-weight: normal; font-style: normal;
+    }
     @font-face {
       font-family: 'NanumGarMaesGeur';
       src: url('NanumGarMaesGeur.ttf') format('truetype');
       font-weight: normal; font-style: normal;
     }
-    @font-face {
-      font-family: 'NanumGgocNaeEum';
-      src: url('NanumGgocNaeEum.ttf') format('truetype');
-      font-weight: normal; font-style: normal;
-    }
-
     :root {
       --ts:.5s;
       --max-w:860px;
@@ -28,9 +27,9 @@
       --font-ko:'Pretendard','Noto Serif KR',serif;
       --font-en:'Noto Serif',serif;
       
-      /* Khai báo 2 biến font viết tay riêng biệt cho KO và EN */
-      --font-hand-ko: 'NanumGarMaesGeur', 'Caveat', cursive;
-      --font-hand-en: 'NanumGgocNaeEum', 'Caveat', cursive;
+      /* Phân chia rõ ràng 2 font viết tay */
+      --font-hand-en: 'NanumNeuRisNeuRisCe', 'Caveat', cursive;
+      --font-hand-ko: 'NanumGarMaesGeur', 'Nanum Pen Script', cursive;
       
       --gray-en:#555;
       --gray-en-dark:#999;
@@ -140,14 +139,14 @@
     .entry-letter{font-family:var(--font-en);font-size:clamp(5rem,18vw,12rem);font-weight:300;color:#fff;line-height:1;margin-bottom:70px;letter-spacing:-.02em;}
     .entry-word{font-family:var(--font-en);font-size:clamp(1.2rem,3.5vw,1.9rem);font-weight:400;font-style:italic;color:#fff;letter-spacing:.06em;margin-bottom:40px;}
     
-    /* Trả về style nguyên gốc cho phần Explain */
     .entry-ko-head{font-family:var(--font-ko);font-size:clamp(.9rem,2.4vw,1.2rem);font-weight:600;color:#f0f0f0;margin-bottom:6px;}
-    .entry-ko-body{font-family:var(--font-ko);font-size:clamp(.84rem,2.1vw,1.06rem);font-weight:400;line-height:1.85;color:#d8d8d8;max-width:680px;margin:0 auto 15px;white-space:pre-line;}
     
+    /* TRẢ LẠI NGUYÊN BẢN CHO EXPLAIN */
+    .entry-ko-body{font-family:var(--font-ko);font-size:clamp(.84rem,2.1vw,1.06rem);font-weight:400;line-height:1.85;color:#d8d8d8;max-width:680px;margin:0 auto 15px;white-space:pre-line;}
     .entry-en-head{font-family:var(--font-en);font-size:clamp(.78rem,2vw,1rem);font-weight:400;font-style:italic;color:#b0b0b0;margin-bottom:4px;}
     .entry-en-body{font-family:var(--font-en);font-size:clamp(.72rem,1.8vw,.92rem);font-weight:300;font-style:italic;line-height:1.8;color:#888;max-width:680px;margin:0 auto 2.5rem;white-space:pre-line;}
     
-    /* Ép buộc riêng phần Answer với font viết tay cụ thể */
+    /* ÁP DỤNG FONT VIẾT TAY THEO YÊU CẦU */
     .entry-answer-ko, .entry-answer-ko span{font-family:var(--font-hand-ko) !important;font-size:clamp(1.4rem,3.4vw,1.85rem);font-weight:400;line-height:2;color:#d8d8d8;max-width:680px;margin:2rem auto .5rem;white-space:pre-line;}
     .entry-answer-en, .entry-answer-en span{font-family:var(--font-hand-en) !important;font-size:clamp(1.1rem,2.6vw,1.55rem);font-weight:400;line-height:1.2;color:#888;max-width:680px;margin:0 auto 4rem;white-space:pre-line;}
     
@@ -1033,9 +1032,10 @@ that the stars shone with an almost eternal clarity.`,
 
       if (d) {
         document.getElementById('entry-ko-head').textContent = `${d.ko||''} (${d.word_type_ko||''})`;
-        // Phục hồi nguyên bản cấu trúc cũ của Explain_KO và Explain_EN
+        // Phục hồi lại Explain_KO y như cũ
         document.getElementById('entry-ko-body').textContent = d.explain_ko||'';
         document.getElementById('entry-en-head').textContent = `${d.en||''} (${d.type||''})`;
+        // Phục hồi lại Explain_EN y như cũ
         document.getElementById('entry-en-body').textContent = d.explain_en||'';
       } else {
         document.getElementById('entry-ko-head').textContent = '(내용 준비 중)';
